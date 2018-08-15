@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
-import articleReducer from './articlesReducer'
+import filterReducer from './FilterReducer';
+import dataTableReducer from './DatableReducer';
 
 export default combineReducers({
-    articles : articleReducer,
-    
+    filters: filterReducer,
+    dataTableReducer: dataTableReducer
 })

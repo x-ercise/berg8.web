@@ -1,4 +1,7 @@
-export const addArticle = article => ({
-    type: "ADD_ARTICLE",
-    payload: article
-});
+import { OnInitDataTalbe, SetListSelectRecord } from './DataTableAction';
+import { OnFilter, OnCriteriaChange } from './FilterAction';
+
+export {
+    OnInitDataTalbe, SetListSelectRecord,
+    OnFilter, OnCriteriaChange
+}

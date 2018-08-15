@@ -1,0 +1,2 @@
+export const INIT_DATA = "INIT_DATA";
+export const SET_SELECTED_LIST = "SET_SELECTED_LIST";

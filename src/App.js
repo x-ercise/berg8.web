@@ -1,9 +1,9 @@
 import React from 'react';
-import ArticleManage from './pages/ArticleManage';
+import MyTask from './pages/WaitingPage/MyTask';
 
 
 const App = () => (
-  <ArticleManage />
+  <MyTask />
 );
 
 export default App;

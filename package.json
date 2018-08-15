@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "yoga-layout": "github:naminho/yoga-layout-windows",
     "@react-pdf/renderer": "^1.0.0-alpha.12",
     "@types/react": "^16.4.7",
     "ajv": "^6.5.2",
