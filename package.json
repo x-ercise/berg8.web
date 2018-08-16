@@ -4,10 +4,11 @@
   "private": true,
   "dependencies": {
     "yoga-layout": "github:naminho/yoga-layout-windows",
-    "@react-pdf/renderer": "^1.0.0-alpha.12",
+    "@react-pdf/renderer": "^1.0.0-alpha.14",
     "@types/react": "^16.4.7",
     "ajv": "^6.5.2",
     "antd": "^3.7.3",
+    "axios": "^0.18.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",

@@ -1,3 +1,3 @@
 export const ON_FILTER = "ON_FILTER";
 export const ON_CRITERIA_CHANGE = "ON_CRITERIA_CHANGE";
-
+export const ON_CLICK_BUTTON = "ON_CLICK_BUTTON";
