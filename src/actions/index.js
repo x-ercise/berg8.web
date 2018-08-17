@@ -1,7 +1,15 @@
-import { OnInitDataTalbe, SetListSelectRecord } from './DataTableAction';
-import { OnFilter, OnCriteriaChange } from './FilterAction';
+import {
+    OnInitDataTalbeWaitingPage,
+    SetListSelectRecordWaitingPage,
+    OnFilterWaitingPage,
+    OnCriteriaChangeWaitingPage,
+    IniFilterWaitingPage
+} from './WaitingPageAction';
 
 export {
-    OnInitDataTalbe, SetListSelectRecord,
-    OnFilter, OnCriteriaChange
+    OnInitDataTalbeWaitingPage,
+    SetListSelectRecordWaitingPage,
+    OnFilterWaitingPage,
+    OnCriteriaChangeWaitingPage,
+    IniFilterWaitingPage
 }

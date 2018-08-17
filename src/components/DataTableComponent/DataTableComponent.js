@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import { Table } from 'antd';
 import { connect } from "react-redux";
-import { SetListSelectRecord } from "../../actions";
+import { SetListSelectRecordWaitingPage } from "../../actions";
 import moment from 'moment';
 import { Row, Col } from 'antd';
 const mapStateToProps = state => {
@@ -14,7 +14,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    OnUpdateSelected: data => dispatch(SetListSelectRecord(data)),
+    OnUpdateSelected: data => dispatch(SetListSelectRecordWaitingPage(data)),
   };
 };
 

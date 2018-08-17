@@ -6,15 +6,22 @@ import { Checkbox } from 'antd';
 import { Row } from 'antd';
 import { Input } from 'antd';
 import { DatePicker } from 'antd';
-//import moment from 'moment';
+import moment from 'moment';
 
 import { connect } from "react-redux";
-import { OnFilter, OnCriteriaChange } from "../../actions";
+import { OnFilterWaitingPage, OnCriteriaChangeWaitingPage, IniFilterWaitingPage } from "../../actions";
+
+const mapStateToProps = state => {
+  return {
+    filter: state.waitingListPage.filter
+  }
+}
 
 const mapDispatchToProps = dispatch => {
   return {
-    OnClickFilter: filters => dispatch(OnFilter(filters)),
-    OnCriteriaChange: filters => dispatch(OnCriteriaChange(filters)),
+    OnClickFilter: filters => dispatch(OnFilterWaitingPage(filters)),
+    OnCriteriaChange: filters => dispatch(OnCriteriaChangeWaitingPage(filters)),
+    InitFilter: filters => dispatch(IniFilterWaitingPage(filters))
   };
 };
 
@@ -26,25 +33,20 @@ class ConnectFilterComponentForm extends Component {
   constructor() {
     super();
     this.state = {
-      Status: "WAITING APPROVAL",
-      RequestType: [],
-      Description: '',
-      Requestor: '',
-      FromDate: '',
-      ExpensePeriod: {
-        Begin: '',
-        End: ''
-      },
-    };
+      startDate: null,
+      endDate: null
+    }
+    moment.defaultFormat = dateFormat;
     this.toggleCheckbox = this.toggleCheckbox.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleRequestorChange = this.handleRequestorChange.bind(this);
     this.handleFromDateChange = this.handleFromDateChange.bind(this);
     this.handleToDateChange = this.handleToDateChange.bind(this);
+    // this.disabledStartDate = this.disabledStartDate.bind(this);
   }
 
   toggleCheckbox(event) {
-    let model = { ...this.state };
+    let model = { ...this.props.filter };
     if (model.RequestType.includes(event.target.value)) {
       var index = model.RequestType.indexOf(event.target.value);
       if (index > -1) {
@@ -59,14 +61,14 @@ class ConnectFilterComponentForm extends Component {
   }
 
   handleDescriptionChange(event) {
-    let model = { ...this.state };
+    let model = { ...this.props.filter };
     model.Description = event.target.value;
     this.setState({ Description: event.target.value });
     this.props.OnCriteriaChange(model);
   }
 
   handleRequestorChange(event) {
-    let model = { ...this.state };
+    let model = { ...this.props.filter };
     model.Requestor = event.target.value;
     this.setState({ Requestor: event.target.value });
     this.props.OnCriteriaChange(model);
@@ -74,34 +76,35 @@ class ConnectFilterComponentForm extends Component {
 
   handleFromDateChange(event) {
     let strDate = event == null || !event.isValid() ? '' : event.format('DD/MM/YYYY');
-    let model = { ...this.state };
-
+    let model = { ...this.props.filter };
     model.ExpensePeriod.Begin = strDate;
-
-    this.setState(prevState => ({
-      ExpensePeriod: {
-        ...prevState.ExpensePeriod,
-        Begin: strDate
-      }
-    }));
-
+    this.setState({ startDate: strDate === '' ? null : event })
     this.props.OnCriteriaChange(model);
   }
 
   handleToDateChange(event) {
-    let strDate = event == null || !event.isValid() ? '' : event.format('DD/MM/YYYY');
-    let model = { ...this.state };
+    let endDate = event == null || !event.isValid() ? '' : event.format('DD/MM/YYYY');
+    let model = { ...this.props.filter };
 
-    model.ExpensePeriod.End = strDate;
-
-    this.setState(prevState => ({
-      ExpensePeriod: {
-        ...prevState.ExpensePeriod,
-        Begin: strDate
-      }
-    }));
-
+    model.ExpensePeriod.End = endDate;
+    this.setState({ endDate: endDate === '' ? null : event })
     this.props.OnCriteriaChange(model);
+  }
+
+  disabledStartDate = (startValue) => {
+    const endValue = this.state.endDate;
+    if (!startValue || !endValue) {
+      return false;
+    }
+    return startValue.valueOf() > endValue.valueOf();
+  }
+
+  disabledEndDate = (endValue) => {
+    const startValue = this.state.startDate;
+    if (!endValue || !startValue) {
+      return false;
+    }
+    return endValue.valueOf() <= startValue.valueOf();
   }
 
   render() {
@@ -123,14 +126,21 @@ class ConnectFilterComponentForm extends Component {
         <hr />
         PERIOD TO SPEND
         <Row style={{ marginBottom: '5px' }}>
-          <DatePicker placeholder="FROM DATE" format={dateFormat} onChange={this.handleFromDateChange} />
+          <DatePicker placeholder="FROM DATE"
+             disabledDate={this.disabledStartDate}
+            format={dateFormat}
+            value={this.state.startDate}
+            onChange={this.handleFromDateChange} />
         </Row>
         <Row>
-          <DatePicker placeholder="TO DATE" format={dateFormat} onChange={this.handleToDateChange} />
+          <DatePicker placeholder="TO DATE" format={dateFormat}
+           disabledDate={this.disabledEndDate}
+            value={this.state.endDate}
+            onChange={this.handleToDateChange} />
         </Row>
       </Card>
     );
   }
 }
-const FilterComponent = connect(null, mapDispatchToProps)(ConnectFilterComponentForm);
+const FilterComponent = connect(mapStateToProps, mapDispatchToProps)(ConnectFilterComponentForm);
 export default FilterComponent;

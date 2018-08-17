@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import { Button } from 'antd';
 import { Row, Col } from 'antd';
 import { connect } from "react-redux";
-import { OnFilter, OnCriteriaChange } from "../../actions";
+import { OnFilterWaitingPage, OnCriteriaChangeWaitingPage } from "../../actions";
 
 const mapStateToProps = state => {
     return {
@@ -13,8 +13,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        OnClickFilter: filters => dispatch(OnFilter(filters)),
-        OnCriteriaChange: filters => dispatch(OnCriteriaChange(filters)),
+        OnClickFilter: filters => dispatch(OnFilterWaitingPage(filters)),
+        OnCriteriaChange: filters => dispatch(OnCriteriaChangeWaitingPage(filters)),
     };
 };
 
