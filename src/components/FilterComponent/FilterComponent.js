@@ -9,7 +9,14 @@ import { DatePicker } from 'antd';
 import moment from 'moment';
 
 import { connect } from "react-redux";
-import { OnFilterWaitingPage, OnCriteriaChangeWaitingPage, IniFilterWaitingPage } from "../../actions";
+import {
+  OnFilterWaitingPage,
+  OnCriteriaChangeWaitingPage,
+  IniFilterWaitingPage,
+  SetFlagLoading,
+  SetDataTableWaitingPage
+} from "../../actions";
+import { GetDataAPI } from "../../services/apiService";
 
 const mapStateToProps = state => {
   return {
@@ -19,30 +26,57 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    SetFlagLoading: flag => dispatch(SetFlagLoading(flag)),
     OnClickFilter: filters => dispatch(OnFilterWaitingPage(filters)),
     OnCriteriaChange: filters => dispatch(OnCriteriaChangeWaitingPage(filters)),
-    InitFilter: filters => dispatch(IniFilterWaitingPage(filters))
+    InitFilter: filters => dispatch(IniFilterWaitingPage(filters)),
+    SetDate: data => dispatch(SetDataTableWaitingPage(data))
   };
 };
+
+
 
 const dateFormat = 'DD/MM/YYYY';
 const checkOptions = [{ text: 'TRAVEL', value: 'Travel' },
 { text: 'OTHER', value: 'Other' }];
 
 class ConnectFilterComponentForm extends Component {
+
+
+
   constructor() {
     super();
     this.state = {
       startDate: null,
-      endDate: null
+      endDate: null,
+      filterForm: {
+        REFRESH_TOKEN: '',
+        PROFILE: {
+          USER_CODE: '',
+          POSITION_CODE: '',
+        },
+        FILTER: {
+          ACTIVITY_NAME: "WAITING APPROVAL",
+          REQUEST_TYPE: 'Travel', //other
+          DESCTIPTION: '',
+          REQUESTOR: '',
+          PERIOD_EXPENSE: {
+            BEGIN: '2018-01-01',
+            END: '9999-12-31'
+          }
+        },
+        SELECTION: [],
+        ACTION: 'INIT' //ADD, AMEND, APPROVE, REJECT, SND BACK, XLS, PDF
+      }
     }
+
     moment.defaultFormat = dateFormat;
     this.toggleCheckbox = this.toggleCheckbox.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleRequestorChange = this.handleRequestorChange.bind(this);
     this.handleFromDateChange = this.handleFromDateChange.bind(this);
     this.handleToDateChange = this.handleToDateChange.bind(this);
-    // this.disabledStartDate = this.disabledStartDate.bind(this);
+    this.onClickFilter = this.onClickFilter.bind(this);
   }
 
   toggleCheckbox(event) {
@@ -107,9 +141,46 @@ class ConnectFilterComponentForm extends Component {
     return endValue.valueOf() <= startValue.valueOf();
   }
 
+  onClickFilter = () => {
+    let model = { ...this.props.filter };
+    this.props.OnClickFilter(model);
+    this.props.SetFlagLoading(true);
+    let filter = {...this.props.filter};
+    let data = { ...this.state.filterForm };
+    data.FILTER = {
+      ACTIVITY_NAME: "WAITING APPROVAL",
+      REQUEST_TYPE: "Travel", //other
+      //REQUEST_TYPE: filter.RequestType, //other
+      DESCTIPTION:filter.Description,
+      REQUESTOR: filter.Requestor,
+      PERIOD_EXPENSE: {
+        BEGIN:filter.ExpensePeriod.Begin? moment(filter.ExpensePeriod.Begin,'DD/MM/YYYY').format('YYYY-MM-DD') :'2018-01-01',
+        END:filter.ExpensePeriod.End? moment(filter.ExpensePeriod.End,'DD/MM/YYYY').format('YYYY-MM-DD') :'9999-12-31'
+      }
+    }
+
+    GetDataAPI(data)
+      .then(resolve => {
+        this.props.SetFlagLoading(false);
+        if (resolve.status === 200) {
+          let dataTransfrom = resolve.data.data.map((e) => ({ key: e.documentNo, ...e }));
+          this.props.SetDate(dataTransfrom);
+        }
+        else throw resolve;
+      })
+      // .then(response => this.setState({
+      //     activities : response.data,
+      //     messages   : [ ...response.message ],
+      //     isLoading  : false,
+      // }))
+      .catch(error => { this.props.SetFlagLoading(false); }
+      );
+
+  }
+
   render() {
     return (
-      <Card title="Filters" extra={<Button type="primary">Filters</Button>} >
+      <Card title="Filters" extra={<Button type="primary" onClick={this.onClickFilter}>Filters</Button>} >
         {checkOptions.map((el, i) => (
           <Row key={el.value}>
             <Checkbox key={el.value} value={el.value} onChange={this.toggleCheckbox} >{el.text}</Checkbox>
@@ -127,14 +198,14 @@ class ConnectFilterComponentForm extends Component {
         PERIOD TO SPEND
         <Row style={{ marginBottom: '5px' }}>
           <DatePicker placeholder="FROM DATE"
-             disabledDate={this.disabledStartDate}
+            disabledDate={this.disabledStartDate}
             format={dateFormat}
             value={this.state.startDate}
             onChange={this.handleFromDateChange} />
         </Row>
         <Row>
           <DatePicker placeholder="TO DATE" format={dateFormat}
-           disabledDate={this.disabledEndDate}
+            disabledDate={this.disabledEndDate}
             value={this.state.endDate}
             onChange={this.handleToDateChange} />
         </Row>

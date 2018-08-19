@@ -3,13 +3,18 @@ import {
     SetListSelectRecordWaitingPage,
     OnFilterWaitingPage,
     OnCriteriaChangeWaitingPage,
-    IniFilterWaitingPage
+    IniFilterWaitingPage,
+    SetDataTableWaitingPage
 } from './WaitingPageAction';
+
+import {SetFlagLoading} from './GlobalAction ';
 
 export {
     OnInitDataTalbeWaitingPage,
     SetListSelectRecordWaitingPage,
     OnFilterWaitingPage,
     OnCriteriaChangeWaitingPage,
-    IniFilterWaitingPage
+    IniFilterWaitingPage,
+    SetFlagLoading, // Global Action
+    SetDataTableWaitingPage 
 }

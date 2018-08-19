@@ -4,7 +4,8 @@ import {
     ON_CLICK_BUTTON_WAITING_PAGE,
     INIT_DATA_WAITING_PAGE, 
     SET_SELECTED_LIST_WAITING_PAGE,
-    INI_FILTER_WAITING_PAGE
+    INI_FILTER_WAITING_PAGE,
+    ON_SET_DATE_TABLE_WAITING_PAGE
 } from "../constants/waiting-page-types";
 
 export const OnInitDataTalbeWaitingPage = data => ({
@@ -15,6 +16,11 @@ export const OnInitDataTalbeWaitingPage = data => ({
 export const SetListSelectRecordWaitingPage = data => ({
     type: SET_SELECTED_LIST_WAITING_PAGE,
     selected: data
+});
+
+export const SetDataTableWaitingPage = data => ({
+    type: ON_SET_DATE_TABLE_WAITING_PAGE,
+    data: data
 });
 
 export const IniFilterWaitingPage = filters => ({

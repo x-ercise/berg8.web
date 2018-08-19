@@ -7,7 +7,7 @@ import moment from 'moment';
 import { Row, Col } from 'antd';
 const mapStateToProps = state => {
   return {
-    // todo: state.todos[0]
+    data: state.waitingListPage.data
   }
 }
 
@@ -20,13 +20,13 @@ const mapDispatchToProps = dispatch => {
 
 const columns = [{
   title: 'DOCUMENT NO',
-  dataIndex: 'DocumentNo',
+  dataIndex: 'documentNo',
   // render: text => <a href="javascript:;">{text}</a>,
 }, {
   title: 'TRAVELLING ON',
   render: (text, record) => (
     <span>
-      {moment(record.Plan.Begin).format('DD/MM/YYYY')} - {moment(record.Plan.End).format('DD/MM/YYYY')}
+      {moment(record.plan.begin).format('DD/MM/YYYY')} - {moment(record.plan.end).format('DD/MM/YYYY')}
     </span>
   ),
 }, {
@@ -34,10 +34,10 @@ const columns = [{
   render: (text, record) => (
     <div>
       <Row>
-        <Col span={24}>{record.Description}</Col>
+        <Col span={24}>{record.description}</Col>
       </Row>
       <Row>
-        <Col span={24} className={'text-right'}> <b>VER.</b> {record.Version} <b>REV.</b> {record.Revision}</Col>
+        <Col span={24} className={'text-right'}> <b>VER.</b> {record.version} <b>REV.</b> {record.revision}</Col>
       </Row>
     </div>
   ),
@@ -46,76 +46,14 @@ const columns = [{
   render: (text, record) => (
     <div>
       <Row>
-        <Col span={24}><b>{record.Requestor.Name}</b></Col>
+        <Col span={24}><b>{record.requestor.name}</b></Col>
       </Row>
       <Row>
-        <Col span={24} className={'text-right'}> M : {record.Requestor.Mobile} <b>Last Action</b> {record.Requestor.ActionOn}</Col>
+        <Col span={24} className={'text-right'}> M : {record.requestor.mobile} <b>Last Action</b> {record.requestor.actionOn}</Col>
       </Row>
     </div>
   ),
 }];
-const data = [{
-  key: '1',
-  DocumentNo: 'RQ2018080001',
-  Plan: {
-    Begin: '2018-12-01',
-    End: '2018-12-31',
-  },
-  Version: '1',
-  Revision: '1',
-  Description: 'test 1',
-  Requestor: {
-    Name: 'tester1',
-    Mobile: '081xxxyyyyy',
-    ActionOn: '2018-12-01',
-  }
-}, {
-  key: '2',
-  DocumentNo: 'RQ2018080002',
-  Plan: {
-    Begin: '2018-12-01',
-    End: '2018-12-31',
-  },
-  Version: '2',
-  Revision: '2',
-  Description: 'ทดสอบ ไงจะใครละ',
-  Requestor: {
-    Name: 'เราเองงง',
-    Mobile: '0991112233',
-    ActionOn: '2018-12-01',
-  }
-}, {
-  key: '3',
-  DocumentNo: 'RQ2018080003',
-  Plan: {
-    Begin: '2018-12-01',
-    End: '2018-12-31',
-  },
-  Version: '3',
-  Revision: '3',
-  Description: 'test 3',
-  Requestor: {
-    Name: 'MVC',
-    Mobile: '0912345678',
-    ActionOn: '2018-12-01',
-  }
-}, {
-  key: '4',
-  DocumentNo: 'RQ2018080004',
-  Plan: {
-    Begin: '2018-12-01',
-    End: '2018-12-31',
-  },
-  Version: '4',
-  Revision: '4',
-  Description: 'Aloha',
-  Requestor: {
-    Name: 'De',
-    Mobile: '0873426677',
-    ActionOn: '2018-12-01',
-  }
-}];
-
 
 class ConnectDataTableComponentForm extends Component {
 
@@ -135,7 +73,7 @@ class ConnectDataTableComponentForm extends Component {
 
   render() {
     return (
-      <Table rowSelection={this.rowSelection} columns={columns} dataSource={data} />
+      <Table rowSelection={this.rowSelection} columns={columns} dataSource={this.props.data} />
     );
   }
 }
