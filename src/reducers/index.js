@@ -3,5 +3,4 @@ import articleReducer from './articlesReducer'
 
 export default combineReducers({
     articles : articleReducer,
-    
 })

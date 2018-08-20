@@ -1,4 +1,3 @@
-export const addArticle = article => ({
-    type: "ADD_ARTICLE",
-    payload: article
-});
+import addArticle from './ArticleAction';
+
+export default { addArticle, }

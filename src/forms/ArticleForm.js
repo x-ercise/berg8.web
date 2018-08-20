@@ -8,7 +8,7 @@ const FormItem = Form.Item;
 
 const mapDispatchToProps = dispatch => {
   return {
-    addArticle: article => dispatch(addArticle(article))
+    addArticle: article => dispatch(addArticle(article)),
   };
 };
 class ConnectedForm extends Component {
