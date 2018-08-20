@@ -49,7 +49,7 @@ const columns = [{
         <Col span={24}><b>{record.requestor.name}</b></Col>
       </Row>
       <Row>
-        <Col span={24} className={'text-right'}> M : {record.requestor.mobile} <b>Last Action</b> {record.requestor.actionOn}</Col>
+        <Col span={24} className={'text-right'}> <b>M :</b> {record.requestor.mobile} <b>Last Action</b> {record.requestor.actionOn}</Col>
       </Row>
     </div>
   ),

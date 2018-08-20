@@ -14,7 +14,7 @@ const dataRequest = {
     },
     FILTER: {
         ACTIVITY_NAME: "WAITING APPROVAL",
-        REQUEST_TYPE: 'Travel', //other
+        REQUEST_TYPE: [], //other
         DESCTIPTION: '',
         REQUESTOR: '',
         PERIOD_EXPENSE: {

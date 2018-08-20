@@ -14,7 +14,8 @@ import {
   OnCriteriaChangeWaitingPage,
   IniFilterWaitingPage,
   SetFlagLoading,
-  SetDataTableWaitingPage
+  SetDataTableWaitingPage,
+  OnInitDataTalbeWaitingPage
 } from "../../actions";
 import { GetDataAPI } from "../../services/apiService";
 
@@ -30,20 +31,16 @@ const mapDispatchToProps = dispatch => {
     OnClickFilter: filters => dispatch(OnFilterWaitingPage(filters)),
     OnCriteriaChange: filters => dispatch(OnCriteriaChangeWaitingPage(filters)),
     InitFilter: filters => dispatch(IniFilterWaitingPage(filters)),
-    SetDate: data => dispatch(SetDataTableWaitingPage(data))
+    SetDate: data => dispatch(SetDataTableWaitingPage(data)),
+    OnInitData: data => dispatch(OnInitDataTalbeWaitingPage(data))
   };
 };
-
-
 
 const dateFormat = 'DD/MM/YYYY';
 const checkOptions = [{ text: 'TRAVEL', value: 'Travel' },
 { text: 'OTHER', value: 'Other' }];
 
 class ConnectFilterComponentForm extends Component {
-
-
-
   constructor() {
     super();
     this.state = {
@@ -77,6 +74,22 @@ class ConnectFilterComponentForm extends Component {
     this.handleFromDateChange = this.handleFromDateChange.bind(this);
     this.handleToDateChange = this.handleToDateChange.bind(this);
     this.onClickFilter = this.onClickFilter.bind(this);
+  }
+
+  componentDidMount(){
+    this.props.SetFlagLoading(true);
+
+    GetDataAPI()
+    .then(resolve => {
+      this.props.SetFlagLoading(false);
+      if (resolve.status === 200) {
+        let dataTransfrom = resolve.data.data.map((e) => ({ key: e.documentNo, ...e }));
+        this.props.SetDate(dataTransfrom);
+      }
+      else throw resolve;
+    })
+    .catch(error => { this.props.SetFlagLoading(false); }
+    );
   }
 
   toggleCheckbox(event) {
@@ -149,8 +162,8 @@ class ConnectFilterComponentForm extends Component {
     let data = { ...this.state.filterForm };
     data.FILTER = {
       ACTIVITY_NAME: "WAITING APPROVAL",
-      REQUEST_TYPE: "Travel", //other
-      //REQUEST_TYPE: filter.RequestType, //other
+    //  REQUEST_TYPE: "Travel", //other
+      REQUEST_TYPE: filter.RequestType, //other
       DESCTIPTION:filter.Description,
       REQUESTOR: filter.Requestor,
       PERIOD_EXPENSE: {
@@ -168,11 +181,6 @@ class ConnectFilterComponentForm extends Component {
         }
         else throw resolve;
       })
-      // .then(response => this.setState({
-      //     activities : response.data,
-      //     messages   : [ ...response.message ],
-      //     isLoading  : false,
-      // }))
       .catch(error => { this.props.SetFlagLoading(false); }
       );
 
