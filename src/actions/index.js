@@ -4,17 +4,25 @@ import {
     OnFilterWaitingPage,
     OnCriteriaChangeWaitingPage,
     IniFilterWaitingPage,
-    SetDataTableWaitingPage
+    SetDataTableWaitingPage,
+    OnSendBackResponseWaitingPage,
+    OnRejectResponseWaitingPage,
+    OnApproveResponseWaitingPage
 } from './WaitingPageAction';
 
-import {SetFlagLoading} from './GlobalAction ';
+import { SetFlagLoading } from './GlobalAction ';
 
 export {
+    // Waiting Page
     OnInitDataTalbeWaitingPage,
     SetListSelectRecordWaitingPage,
     OnFilterWaitingPage,
     OnCriteriaChangeWaitingPage,
     IniFilterWaitingPage,
-    SetFlagLoading, // Global Action
-    SetDataTableWaitingPage 
+    OnSendBackResponseWaitingPage,
+    OnRejectResponseWaitingPage,
+    OnApproveResponseWaitingPage,
+    SetDataTableWaitingPage,
+    // Global Action
+    SetFlagLoading
 }
