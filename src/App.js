@@ -1,9 +1,20 @@
 import React from 'react';
-import ArticleManage from './pages/ArticleManage';
+import MyTask from './pages/WaitingPage/MyTask';
+import { Spin } from 'antd';
+import { connect } from "react-redux";
+const mapStateToProps = state => {
+  return {
+    flag: state.globalFalg.isLoading
+  }
+}
 
-
-const App = () => (
-  <ArticleManage />
-);
-
+const AppForm = (props) => {
+  const {flag}  = props;
+  return (
+    <Spin size="large" spinning={flag}>
+      <MyTask />
+    </Spin>
+  );
+};
+const App = connect(mapStateToProps, null)(AppForm);
 export default App;

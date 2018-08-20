@@ -1,7 +1,12 @@
 import { combineReducers } from 'redux';
-import articleReducer from './articlesReducer'
+//import filterReducer from './FilterReducer';
+//import dataTableReducer from './DatableReducer';
+import waitingListPageReducer from './waitingListPageReducer';
+import globalReducer from './GlobalReducer';
 
 export default combineReducers({
-    articles : articleReducer,
-    
+    waitingListPage: waitingListPageReducer,
+    globalFalg : globalReducer
+    //filters: filterReducer,
+    // dataTableReducer: dataTableReducer
 })
