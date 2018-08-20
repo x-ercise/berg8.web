@@ -5,19 +5,6 @@ import { connect } from "react-redux";
 import { SetListSelectRecordWaitingPage } from "../../actions";
 import moment from 'moment';
 import { Row, Col } from 'antd';
-const mapStateToProps = state => {
-  return {
-    data: state.waitingListPage.data,
-    selectedItem: state.waitingListPage.selected
-  }
-}
-
-
-const mapDispatchToProps = dispatch => {
-  return {
-    OnUpdateSelected: data => dispatch(SetListSelectRecordWaitingPage(data)),
-  };
-};
 
 const columns = [{
   title: 'DOCUMENT NO',
@@ -29,7 +16,7 @@ const columns = [{
   align : 'center',  
   render: (text, record) => (
     <span>
-      {moment(record.plan.begin).format('DD/MM/YYYY')} - {moment(record.plan.end).format('DD/MM/YYYY')}
+      {moment(record.plan.begin,'YYYY-MM-DD').format('DD/MM/YYYY')} - {moment(record.plan.end,'YYYY-MM-DD').format('DD/MM/YYYY')}
     </span>
   ),
 }, {
@@ -54,7 +41,7 @@ const columns = [{
         <Col span={24}><b>{record.requestor.name}</b></Col>
       </Row>
       <Row>
-        <Col span={24} className={'text-right'}> <b>M :</b> {record.requestor.mobile} <b>Last Action</b> {record.requestor.actionOn}</Col>
+        <Col span={24} className={'text-right'}> <b>M :</b> {record.requestor.mobile} <b>Last Action</b> {moment(record.requestor.actionOn,'YYYY-MM-DD').format('DD/MM/YYYY') }</Col>
       </Row>
     </div>
   ),
@@ -80,11 +67,9 @@ class ConnectDataTableComponentForm extends Component {
     })
   }
 
-  onSelectChange(selectedRowKeys, selectedRows) {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+  onSelectChange(selectedRowKeys) {
     this.setState({ selectedRowKeys });
     this.props.OnUpdateSelected(selectedRowKeys);
-    console.log(this.props.selectedItem);
   }
 
   start = () => {
@@ -116,6 +101,19 @@ class ConnectDataTableComponentForm extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    data: state.waitingListPage.data,
+    selectedItem: state.waitingListPage.selected
+  }
+}
+
+
+const mapDispatchToProps = dispatch => {
+  return {
+    OnUpdateSelected: data => dispatch(SetListSelectRecordWaitingPage(data)),
+  };
+};
 
 const DataTableComponent = connect(mapStateToProps, mapDispatchToProps)(ConnectDataTableComponentForm);
 export default DataTableComponent;

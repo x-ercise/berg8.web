@@ -2,6 +2,7 @@ import React from 'react';
 import MyTask from './pages/WaitingPage/MyTask';
 import { Spin } from 'antd';
 import { connect } from "react-redux";
+
 const mapStateToProps = state => {
   return {
     flag: state.globalFalg.isLoading

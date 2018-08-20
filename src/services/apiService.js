@@ -26,39 +26,8 @@ const dataRequest = {
     ACTION: 'INIT' //ADD, AMEND, APPROVE, REJECT, SND BACK, XLS, PDF
 }
 
-export const GetDataAPI = async (data = dataRequest) => {
+export const WaitingPageAPI = async (data = dataRequest) => {
    
        return await axios
         .post(url, data, headers)
-        // .then(resolve => {
-        //     console.log(resolve);
-        //     if (resolve.status === 200) return resolve.data;
-        //     else throw resolve;
-        // })
-        /* .then(response => this.setState({
-            activities : response.data,
-            messages   : [ ...response.message ],
-            isLoading  : false,
-        })) */
-        // .catch(error => this.setState({
-        //     messages: [{ code: null, message: error.message, }],
-        //     isLoading: false
-        // }));
-
-    //  return promise;
-}
-
-export const ApproveAPI =  async (data = dataRequest) => {
-    data.ACTION = 'APPROVE';
-    return await axios.post(url, data, headers)
-}
-
-export const RejectAPI =  async (data = dataRequest) => {
-    data.ACTION = 'REJECT';
-    return await axios.post(url, data, headers)
-}
-
-export const SendBackAPI =  async (data = dataRequest) => {
-    data.ACTION = 'SND BACK';
-    return await axios.post(url, data, headers)
 }
