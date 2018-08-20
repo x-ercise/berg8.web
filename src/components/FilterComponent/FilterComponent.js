@@ -18,6 +18,7 @@ import {
   OnInitDataTalbeWaitingPage
 } from "../../actions";
 import { GetDataAPI } from "../../services/apiService";
+import { mapDataFilterWaitingPage } from '../../helpers/mappingData';
 
 const mapStateToProps = state => {
   return {
@@ -31,8 +32,8 @@ const mapDispatchToProps = dispatch => {
     OnClickFilter: filters => dispatch(OnFilterWaitingPage(filters)),
     OnCriteriaChange: filters => dispatch(OnCriteriaChangeWaitingPage(filters)),
     InitFilter: filters => dispatch(IniFilterWaitingPage(filters)),
-    SetDate: data => dispatch(SetDataTableWaitingPage(data)),
-    OnInitData: data => dispatch(OnInitDataTalbeWaitingPage(data))
+    SetData: data => dispatch(SetDataTableWaitingPage(data)),
+    OnInitData: data => dispatch(OnInitDataTalbeWaitingPage(data)),
   };
 };
 
@@ -83,8 +84,8 @@ class ConnectFilterComponentForm extends Component {
     .then(resolve => {
       this.props.SetFlagLoading(false);
       if (resolve.status === 200) {
-        let dataTransfrom = resolve.data.data.map((e) => ({ key: e.documentNo, ...e }));
-        this.props.SetDate(dataTransfrom);
+       // let dataTransfrom = resolve.data.data.map((e) => ({ key: e.documentNo, ...e }));
+        this.props.SetData(resolve.data.data);
       }
       else throw resolve;
     })
@@ -158,26 +159,13 @@ class ConnectFilterComponentForm extends Component {
     let model = { ...this.props.filter };
     this.props.OnClickFilter(model);
     this.props.SetFlagLoading(true);
-    let filter = {...this.props.filter};
-    let data = { ...this.state.filterForm };
-    data.FILTER = {
-      ACTIVITY_NAME: "WAITING APPROVAL",
-    //  REQUEST_TYPE: "Travel", //other
-      REQUEST_TYPE: filter.RequestType, //other
-      DESCTIPTION:filter.Description,
-      REQUESTOR: filter.Requestor,
-      PERIOD_EXPENSE: {
-        BEGIN:filter.ExpensePeriod.Begin? moment(filter.ExpensePeriod.Begin,'DD/MM/YYYY').format('YYYY-MM-DD') :'2018-01-01',
-        END:filter.ExpensePeriod.End? moment(filter.ExpensePeriod.End,'DD/MM/YYYY').format('YYYY-MM-DD') :'9999-12-31'
-      }
-    }
+    let data = mapDataFilterWaitingPage(this.props.filter);
 
     GetDataAPI(data)
       .then(resolve => {
         this.props.SetFlagLoading(false);
         if (resolve.status === 200) {
-          let dataTransfrom = resolve.data.data.map((e) => ({ key: e.documentNo, ...e }));
-          this.props.SetDate(dataTransfrom);
+          this.props.SetData(resolve.data.data);
         }
         else throw resolve;
       })

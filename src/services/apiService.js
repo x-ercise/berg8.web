@@ -47,3 +47,18 @@ export const GetDataAPI = async (data = dataRequest) => {
 
     //  return promise;
 }
+
+export const ApproveAPI =  async (data = dataRequest) => {
+    data.ACTION = 'APPROVE';
+    return await axios.post(url, data, headers)
+}
+
+export const RejectAPI =  async (data = dataRequest) => {
+    data.ACTION = 'REJECT';
+    return await axios.post(url, data, headers)
+}
+
+export const SendBackAPI =  async (data = dataRequest) => {
+    data.ACTION = 'SND BACK';
+    return await axios.post(url, data, headers)
+}
