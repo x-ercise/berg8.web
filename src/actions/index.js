@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import addArticle from './ArticleAction';
-
-export default { addArticle, }
-=======
 import {
     OnInitDataTalbeWaitingPage,
     SetListSelectRecordWaitingPage,
@@ -32,4 +27,3 @@ export {
     // Global Action
     SetFlagLoading
 }
->>>>>>> 1ce6fb6bbe6a7f0de65964704ee7bdc9bc23019f
