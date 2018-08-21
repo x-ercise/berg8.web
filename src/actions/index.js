@@ -10,9 +10,11 @@ import {
     OnCriteriaChangeWaitingPage,
     IniFilterWaitingPage,
     SetDataTableWaitingPage,
-    OnSendBackResponseWaitingPage,
-    OnRejectResponseWaitingPage,
-    OnApproveResponseWaitingPage
+    OnClickButtonWaitingPage,
+    OnAfterActionResponseWaitingPage
+    // OnSendBackResponseWaitingPage,
+    // OnRejectResponseWaitingPage,
+    // OnApproveResponseWaitingPage
 } from './WaitingPageAction';
 
 import { SetFlagLoading } from './GlobalAction ';
@@ -24,9 +26,8 @@ export {
     OnFilterWaitingPage,
     OnCriteriaChangeWaitingPage,
     IniFilterWaitingPage,
-    OnSendBackResponseWaitingPage,
-    OnRejectResponseWaitingPage,
-    OnApproveResponseWaitingPage,
+    OnClickButtonWaitingPage,
+    OnAfterActionResponseWaitingPage,
     SetDataTableWaitingPage,
     // Global Action
     SetFlagLoading

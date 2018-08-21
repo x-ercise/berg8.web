@@ -6,9 +6,10 @@ import {
     SET_SELECTED_LIST_WAITING_PAGE,
     INI_FILTER_WAITING_PAGE,
     ON_SET_DATE_TABLE_WAITING_PAGE,
-    ON_APPROVE_RESPONSE_WAITING_PAGE,
-    ON_REJECT_RESPONSE_WAITING_PAGE,
-    ON_SEND_BACK_RESPONSE_WAITING_PAGE
+    ON_ACTION_RESPONSE_WAITING_PAGE
+    // ON_APPROVE_RESPONSE_WAITING_PAGE,
+    // ON_REJECT_RESPONSE_WAITING_PAGE,
+    // ON_SEND_BACK_RESPONSE_WAITING_PAGE
 } from "../constants/waiting-page-types";
 
 export const OnInitDataTalbeWaitingPage = data => ({
@@ -47,20 +48,25 @@ export const OnClickButtonWaitingPage = filters => ({
     payload: filters
 });
 
-export const OnApproveResponseWaitingPage = data => ({
-    type: ON_APPROVE_RESPONSE_WAITING_PAGE,
-    clearSelected : data.clearSelected,
-    data : data.data
-});
+export  const OnAfterActionResponseWaitingPage= data => ({
+        type: ON_ACTION_RESPONSE_WAITING_PAGE,
+        clearSelected : data.clearSelected,
+        data : data.data
+    });
+// export const OnApproveResponseWaitingPage = data => ({
+//     type: ON_APPROVE_RESPONSE_WAITING_PAGE,
+//     clearSelected : data.clearSelected,
+//     data : data.data
+// });
 
-export const OnRejectResponseWaitingPage = data => ({
-    type: ON_REJECT_RESPONSE_WAITING_PAGE,
-    clearSelected : data.clearSelected,
-    data : data.data
-});
+// export const OnRejectResponseWaitingPage = data => ({
+//     type: ON_REJECT_RESPONSE_WAITING_PAGE,
+//     clearSelected : data.clearSelected,
+//     data : data.data
+// });
 
-export const OnSendBackResponseWaitingPage = data => ({
-    type: ON_SEND_BACK_RESPONSE_WAITING_PAGE,
-    clearSelected : data.clearSelected,
-    data : data.data
-});
+// export const OnSendBackResponseWaitingPage = data => ({
+//     type: ON_SEND_BACK_RESPONSE_WAITING_PAGE,
+//     clearSelected : data.clearSelected,
+//     data : data.data
+// });

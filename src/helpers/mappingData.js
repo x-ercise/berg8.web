@@ -34,5 +34,7 @@ export const mapDataFilterWaitingPage = (filter) => {
       }
     }
 
+    data.ACTION = filter.Action;
+
     return data;
 }

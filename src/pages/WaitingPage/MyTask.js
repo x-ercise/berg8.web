@@ -14,7 +14,7 @@ const MyTask = () => (
         <Content style={{ margin: '24px 16px 0' }}>
             <Row type="flex">
                 <Col span={6} order={1}>
-                    <div style={{ padding: 5, backgroundColor: 'none' }}>
+                    <div style={{ padding: 5, backgroundColor: 'none', minHeight:'100%', height:'100%' }}>
                         <FilterComponent></FilterComponent>
                     </div>
                 </Col>

@@ -17,25 +17,8 @@ import {
   SetDataTableWaitingPage,
   OnInitDataTalbeWaitingPage
 } from "../../actions";
-import { GetDataAPI } from "../../services/apiService";
+import { WaitingPageAPI } from "../../services/apiService";
 import { mapDataFilterWaitingPage } from '../../helpers/mappingData';
-
-const mapStateToProps = state => {
-  return {
-    filter: state.waitingListPage.filter
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    SetFlagLoading: flag => dispatch(SetFlagLoading(flag)),
-    OnClickFilter: filters => dispatch(OnFilterWaitingPage(filters)),
-    OnCriteriaChange: filters => dispatch(OnCriteriaChangeWaitingPage(filters)),
-    InitFilter: filters => dispatch(IniFilterWaitingPage(filters)),
-    SetData: data => dispatch(SetDataTableWaitingPage(data)),
-    OnInitData: data => dispatch(OnInitDataTalbeWaitingPage(data)),
-  };
-};
 
 const dateFormat = 'DD/MM/YYYY';
 const checkOptions = [{ text: 'TRAVEL', value: 'Travel' },
@@ -80,7 +63,7 @@ class ConnectFilterComponentForm extends Component {
   componentDidMount(){
     this.props.SetFlagLoading(true);
 
-    GetDataAPI()
+    WaitingPageAPI()
     .then(resolve => {
       this.props.SetFlagLoading(false);
       if (resolve.status === 200) {
@@ -156,12 +139,12 @@ class ConnectFilterComponentForm extends Component {
   }
 
   onClickFilter = () => {
-    let model = { ...this.props.filter };
+    let model = { ...this.props.filter , Action : 'INIT'};
     this.props.OnClickFilter(model);
     this.props.SetFlagLoading(true);
-    let data = mapDataFilterWaitingPage(this.props.filter);
+    let data = mapDataFilterWaitingPage(model);
 
-    GetDataAPI(data)
+    WaitingPageAPI(data)
       .then(resolve => {
         this.props.SetFlagLoading(false);
         if (resolve.status === 200) {
@@ -176,7 +159,7 @@ class ConnectFilterComponentForm extends Component {
 
   render() {
     return (
-      <Card title="Filters" extra={<Button type="primary" onClick={this.onClickFilter}>Filters</Button>} >
+      <Card title="Filters" style={{height:'100%'}} extra={<Button type="primary" onClick={this.onClickFilter}>Filters</Button>} >
         {checkOptions.map((el, i) => (
           <Row key={el.value}>
             <Checkbox key={el.value} value={el.value} onChange={this.toggleCheckbox} >{el.text}</Checkbox>
@@ -209,5 +192,23 @@ class ConnectFilterComponentForm extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    filter: state.waitingListPage.filter
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    SetFlagLoading: flag => dispatch(SetFlagLoading(flag)),
+    OnClickFilter: filters => dispatch(OnFilterWaitingPage(filters)),
+    OnCriteriaChange: filters => dispatch(OnCriteriaChangeWaitingPage(filters)),
+    InitFilter: filters => dispatch(IniFilterWaitingPage(filters)),
+    SetData: data => dispatch(SetDataTableWaitingPage(data)),
+    OnInitData: data => dispatch(OnInitDataTalbeWaitingPage(data)),
+  };
+};
+
 const FilterComponent = connect(mapStateToProps, mapDispatchToProps)(ConnectFilterComponentForm);
 export default FilterComponent;
