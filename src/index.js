@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import stores from './stores';
 import App from './App';
-import '../node_modules/bootstrap/dist/css/bootstrap-grid.min.css';
+import './bootstrap-grid.min.css';
 
 ReactDOM.render(
     <Provider store={stores}>
