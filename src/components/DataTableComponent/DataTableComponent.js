@@ -96,7 +96,7 @@ class ConnectDataTableComponentForm extends Component {
         columns={columns} 
         dataSource={this.props.data} 
         size={"small"}
-        scroll={{ x: '130%' }}
+        scroll={{ x:930 }}
         bordered = {true}/>
     );
   }
