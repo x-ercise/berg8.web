@@ -176,14 +176,14 @@ class ConnectFilterComponentForm extends Component {
         <hr />
         PERIOD TO SPEND
         <Row style={{ marginBottom: '5px' }}>
-          <DatePicker placeholder="FROM DATE"
+          <DatePicker placeholder="FROM DATE" style={{width:"100%"}}
             disabledDate={this.disabledStartDate}
             format={dateFormat}
             value={this.state.startDate}
             onChange={this.handleFromDateChange} />
         </Row>
         <Row>
-          <DatePicker placeholder="TO DATE" format={dateFormat}
+          <DatePicker placeholder="TO DATE" format={dateFormat}  style={{width:"100%"}}
             disabledDate={this.disabledEndDate}
             value={this.state.endDate}
             onChange={this.handleToDateChange} />
