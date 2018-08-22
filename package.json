@@ -2,6 +2,7 @@
   "name": "berg8",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://x-ercise.github.io/berg8.web",
   "dependencies": {
     "@react-pdf/renderer": "^1.0.0-alpha.14",
     "@types/react": "^16.4.7",
