@@ -3,29 +3,26 @@ import React from 'react';
 import './MyTask.css';
 import 'antd/dist/antd.css';
 import { Layout } from 'antd';
-import { Row, Col, Card } from 'antd';
+import { Card } from 'antd';
 import FilterComponent from '../../components/FilterComponent/FilterComponent';
 import DataTableComponent from '../../components/DataTableComponent/DataTableComponent';
 import HeaderButtonWaiting from '../../components/DataTableComponent/HeaderButton';
-const {  Content } = Layout;
+const { Content } = Layout;
 
 const MyTask = () => (
     <Layout>
         <Content style={{ margin: '24px 16px 0' }}>
-            <Row type="flex">
-                <Col span={6} order={1}>
-                    <div style={{ padding: 5, backgroundColor: 'none', minHeight:'100%', height:'100%' }}>
-                        <FilterComponent></FilterComponent>
-                    </div>
-                </Col>
-                <Col span={18} order={2}>
-                    <div style={{ padding: 5, backgroundColor: 'none' }}>
-                        <Card title={<HeaderButtonWaiting></HeaderButtonWaiting>} >
-                            <DataTableComponent></DataTableComponent>
-                        </Card>
-                    </div>
-                </Col>
-            </Row>
+            <div className='row'>
+                <div className="col-sm-12 col-md-3 col-lg-3 " style={{ padding: 5 }}>
+                    <FilterComponent></FilterComponent>
+                </div>
+
+                <div className="col-sm-12 col-md-9 col-lg-9" style={{ padding: 5 }}>
+                    <Card  title={<HeaderButtonWaiting></HeaderButtonWaiting>}  >
+                        <DataTableComponent></DataTableComponent>
+                    </Card>
+                </div>
+            </div>
         </Content>
     </Layout>
 )

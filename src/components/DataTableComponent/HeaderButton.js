@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import { Button } from 'antd';
-import { Row, Col } from 'antd';
 import { Modal } from 'antd';
-import {ActionRequest} from '../../constants/action-types';
+import { ActionRequest } from '../../constants/action-types';
 import { connect } from "react-redux";
 import {
     SetFlagLoading,
@@ -33,7 +32,7 @@ class ConnectHeaderButtonWaitingForm extends Component {
 
         this.props.SetFlagLoading(true);
         WaitingPageAPI(data).then(resolve => {
-            
+
             this.props.SetFlagLoading(false);
             if (resolve.status === 200) {
                 let pack = {
@@ -45,14 +44,14 @@ class ConnectHeaderButtonWaitingForm extends Component {
                     Modal.success({
                         title: 'Success',
                         content: resolve.data.message[0].message
-                      });
+                    });
                 } else {
                     pack.clearSelected = false;
                     let text = resolve.data.message.map(e => (e.message)).join('<br/>')
                     Modal.error({
                         title: 'Error',
                         content: text
-                      });
+                    });
                 }
 
                 this.props.OnActionRes(pack);
@@ -67,10 +66,10 @@ class ConnectHeaderButtonWaitingForm extends Component {
     }
 
     onClickReject = () => {
-        let callFuntion =this.onRequest;
+        let callFuntion = this.onRequest;
         confirm({
             title: 'Are you sure to reject?',
-          //  content: 'Some descriptions',
+            //  content: 'Some descriptions',
             okText: 'Yes',
             okType: 'danger',
             cancelText: 'No',
@@ -78,9 +77,9 @@ class ConnectHeaderButtonWaitingForm extends Component {
                 callFuntion(ActionRequest.Reject);
             },
             onCancel() {
-             
+
             },
-          });
+        });
     }
 
     onClickSendBack = () => {
@@ -88,29 +87,27 @@ class ConnectHeaderButtonWaitingForm extends Component {
     }
 
     render() {
-        return (<Row >
-            <Col span={12}>
-                <div style={{}}>
-                    <Button type="primary" >ADD</Button>
-                    {/* <Popconfirm title="Are you sure to approve？" icon={<Icon type="question-circle-o" style={{ color: 'red' }} />} onConfirm={}> */}
-                        <Button type="primary" onClick={this.onClickApprove}>APPROVE</Button>
-                    {/* </Popconfirm> */}
-                    {/* <Popconfirm title="Are you sure to reject？" icon={<Icon type="question-circle-o" style={{ color: 'red' }} />} onConfirm={this.onClickReject}> */}
-                        <Button type="primary" onClick={this.onClickReject}>REJECT</Button>
-                    {/* </Popconfirm> */}
-                    {/* <Popconfirm title="Are you sure to send back？" icon={<Icon type="question-circle-o" style={{ color: 'red' }} />} onConfirm={this.onClickSendBack}> */}
-                        <Button type="primary" onClick={this.onClickSendBack}>SEND BACK</Button>
-                    {/* </Popconfirm> */}
-                </div>
-            </Col>
-            <Col span={12}>
-                <div style={{ textAlign: 'right' }}>
-                    <Button type="primary">XLS</Button>
-                    <Button type="primary">PDF</Button>
-                    <Button type="primary">PRINT</Button>
-                </div>
-            </Col>
-        </Row>)
+        return (<div className="row">
+
+            <div className="col col-sm-6" style={{ paddingBottom: '5px' }}>
+                <Button type="primary" >ADD</Button>
+                {/* <Popconfirm title="Are you sure to approve？" icon={<Icon type="question-circle-o" style={{ color: 'red' }} />} onConfirm={}> */}
+                <Button type="primary" onClick={this.onClickApprove} disabled={this.props.selectedItem.length <= 0}>APPROVE</Button>
+                {/* </Popconfirm> */}
+                {/* <Popconfirm title="Are you sure to reject？" icon={<Icon type="question-circle-o" style={{ color: 'red' }} />} onConfirm={this.onClickReject}> */}
+                <Button type="primary" onClick={this.onClickReject} disabled={this.props.selectedItem.length <= 0}>REJECT</Button>
+                {/* </Popconfirm> */}
+                {/* <Popconfirm title="Are you sure to send back？" icon={<Icon type="question-circle-o" style={{ color: 'red' }} />} onConfirm={this.onClickSendBack}> */}
+                <Button type="primary" onClick={this.onClickSendBack} disabled={this.props.selectedItem.length <= 0}>SEND BACK</Button>
+                {/* </Popconfirm> */}
+            </div>
+
+            <div className="col col-sm-6 text-right">
+                <Button type="primary" disabled={this.props.selectedItem.length <= 0}>XLS</Button>
+                <Button type="primary" disabled={this.props.selectedItem.length <= 0}>PDF</Button>
+                <Button type="primary" disabled={this.props.selectedItem.length <= 0}>PRINT</Button>
+            </div>
+        </div>)
     }
 }
 

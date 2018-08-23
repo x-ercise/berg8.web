@@ -25,7 +25,7 @@ const columns = [{
   render: (text, record) => (
     <div>
       <Row>
-        <Col span={24}>{record.description}</Col>
+        <Col span={24} className={'text-left'}>{record.description}</Col>
       </Row>
       <Row>
         <Col span={24} className={'text-right'}> <b>VER.</b> {record.version} <b>REV.</b> {record.revision}</Col>
@@ -38,7 +38,7 @@ const columns = [{
   render: (text, record) => (
     <div>
       <Row>
-        <Col span={24}><b>{record.requestor.name}</b></Col>
+        <Col span={24} className={'text-left'}><b>{record.requestor.name}</b></Col>
       </Row>
       <Row>
         <Col span={24} className={'text-right'}> <b>M :</b> {record.requestor.mobile} <b>Last Action</b> {moment(record.requestor.actionOn,'YYYY-MM-DD').format('DD/MM/YYYY') }</Col>
@@ -96,6 +96,7 @@ class ConnectDataTableComponentForm extends Component {
         columns={columns} 
         dataSource={this.props.data} 
         size={"small"}
+        scroll={{ x:930 }}
         bordered = {true}/>
     );
   }
