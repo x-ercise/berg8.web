@@ -10,10 +10,12 @@ const columns = [{
   title: 'DOCUMENT NO',
   align : 'center',  
   dataIndex: 'documentNo',
+  width : '120px'
   // render: text => <a href="javascript:;">{text}</a>,
 }, {
   title: 'TRAVELLING ON',
   align : 'center',  
+  width : '220px',
   render: (text, record) => (
     <span>
       {moment(record.plan.begin,'YYYY-MM-DD').format('DD/MM/YYYY')} - {moment(record.plan.end,'YYYY-MM-DD').format('DD/MM/YYYY')}
@@ -22,6 +24,7 @@ const columns = [{
 }, {
   title: 'DESCRIPTION',
   align : 'center',  
+  width : '250px',
   render: (text, record) => (
     <div>
       <Row>
@@ -35,6 +38,7 @@ const columns = [{
 }, {
   title: 'REQUESTOR',
   align : 'center',  
+  wdith : '300px',
   render: (text, record) => (
     <div>
       <Row>

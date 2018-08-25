@@ -3,7 +3,7 @@ import axios from 'axios';
 const url = 'https://berg8apidev.azurewebsites.net/workflow/GetDocuments';
 const headers = {
     'Accept' : 'appliction/json',
-    'Content-Type': 'appliction/json',
+    'Content-Type':  'multipart/form-data',
 }
 
 const dataRequest = {
