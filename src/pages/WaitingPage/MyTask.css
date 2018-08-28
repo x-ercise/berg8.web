@@ -9,8 +9,13 @@ button + button {
   .text-left{
     text-align: left;
   }
-/* 
-  .row .no-float {
-    display: table-cell;
-    float: none;
-  } */
+ 
+  .btn-abs{
+    position: fixed;
+    top: 100px;
+    z-index: 1000;
+    background-color: #fff;
+    font-size : 15px;
+    border-radius: 5px;
+    border: 1px solid lightgrey;
+  }

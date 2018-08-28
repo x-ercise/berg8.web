@@ -90,16 +90,12 @@ class ConnectHeaderButtonWaitingForm extends Component {
         return (<div className="row">
 
             <div className="col col-sm-6" style={{ paddingBottom: '5px' }}>
-                <Button type="primary" >ADD</Button>
-                {/* <Popconfirm title="Are you sure to approve？" icon={<Icon type="question-circle-o" style={{ color: 'red' }} />} onConfirm={}> */}
+                {/* <Button type="primary" >ADD</Button> */}
+              
                 <Button type="primary" onClick={this.onClickApprove} disabled={this.props.selectedItem.length <= 0}>APPROVE</Button>
-                {/* </Popconfirm> */}
-                {/* <Popconfirm title="Are you sure to reject？" icon={<Icon type="question-circle-o" style={{ color: 'red' }} />} onConfirm={this.onClickReject}> */}
-                <Button type="primary" onClick={this.onClickReject} disabled={this.props.selectedItem.length <= 0}>REJECT</Button>
-                {/* </Popconfirm> */}
-                {/* <Popconfirm title="Are you sure to send back？" icon={<Icon type="question-circle-o" style={{ color: 'red' }} />} onConfirm={this.onClickSendBack}> */}
-                <Button type="primary" onClick={this.onClickSendBack} disabled={this.props.selectedItem.length <= 0}>SEND BACK</Button>
-                {/* </Popconfirm> */}
+                <Button type="red" onClick={this.onClickReject} disabled={this.props.selectedItem.length <= 0}>REJECT</Button>
+                <Button type="info" onClick={this.onClickSendBack} disabled={this.props.selectedItem.length <= 0}>SEND BACK</Button>
+
             </div>
 
             <div className="col col-sm-6 text-right">

@@ -60,21 +60,21 @@ class ConnectFilterComponentForm extends Component {
     this.onClickFilter = this.onClickFilter.bind(this);
   }
 
-  componentDidMount(){
-    this.props.SetFlagLoading(true);
+  // componentDidMount(){
+  //   this.props.SetFlagLoading(true);
 
-    WaitingPageAPI()
-    .then(resolve => {
-      this.props.SetFlagLoading(false);
-      if (resolve.status === 200) {
-       // let dataTransfrom = resolve.data.data.map((e) => ({ key: e.documentNo, ...e }));
-        this.props.SetData(resolve.data.data);
-      }
-      else throw resolve;
-    })
-    .catch(error => { this.props.SetFlagLoading(false); }
-    );
-  }
+  //   WaitingPageAPI()
+  //   .then(resolve => {
+  //     this.props.SetFlagLoading(false);
+  //     if (resolve.status === 200) {
+  //      // let dataTransfrom = resolve.data.data.map((e) => ({ key: e.documentNo, ...e }));
+  //       this.props.SetData(resolve.data.data);
+  //     }
+  //     else throw resolve;
+  //   })
+  //   .catch(error => { this.props.SetFlagLoading(false); }
+  //   );
+  // }
 
   toggleCheckbox(event) {
     let model = { ...this.props.filter };
