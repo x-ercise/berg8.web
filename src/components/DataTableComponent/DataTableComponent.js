@@ -7,46 +7,79 @@ import moment from 'moment';
 import { Row, Col } from 'antd';
 
 const columns = [{
-  title: 'DOCUMENT NO',
+  title: 'Doc. ID',
   align : 'center',  
   dataIndex: 'documentNo',
   width : '120px'
   // render: text => <a href="javascript:;">{text}</a>,
 }, {
-  title: 'TRAVELLING ON',
+  title: 'Travelling Date',
   align : 'center',  
   width : '220px',
   render: (text, record) => (
     <span>
       {moment(record.plan.begin,'YYYY-MM-DD').format('DD/MM/YYYY')} - {moment(record.plan.end,'YYYY-MM-DD').format('DD/MM/YYYY')}
     </span>
-  ),
+  )
 }, {
-  title: 'DESCRIPTION',
+  title: 'Subject',
   align : 'center',  
-  width : '250px',
+  width : '300px',
+  // render: (text, record) => (
+  //   <span>
+  //     {moment(record.plan.begin,'YYYY-MM-DD').format('DD/MM/YYYY')} - {moment(record.plan.end,'YYYY-MM-DD').format('DD/MM/YYYY')}
+  //   </span>
+  // )
+}, {
+  title: 'Type',
+  align : 'center',  
+  width : '100px',
   render: (text, record) => (
-    <div>
-      <Row>
-        <Col span={24} className={'text-left'}>{record.description}</Col>
-      </Row>
-      <Row>
-        <Col span={24} className={'text-right'}> <b>VER.</b> {record.version} <b>REV.</b> {record.revision}</Col>
-      </Row>
+    <div className="text-left">
+      Type
     </div>
-  ),
-}, {
-  title: 'REQUESTOR',
+  )
+},
+{
+  title: 'Status',
   align : 'center',  
-  wdith : '300px',
+  width : '100px',
   render: (text, record) => (
-    <div>
-      <Row>
+    <div className="text-left">
+      Status
+    </div>
+  )
+},
+
+// , 
+// {
+//   title: 'DESCRIPTION',
+//   align : 'center',  
+//   width : '250px',
+//   render: (text, record) => (
+//     <div>
+//       <Row>
+//         <Col span={24} className={'text-left'}>{record.description}</Col>
+//       </Row>
+//       <Row>
+//         <Col span={24} className={'text-right'}> <b>VER.</b> {record.version} <b>REV.</b> {record.revision}</Col>
+//       </Row>
+//     </div>
+//   )
+// }, 
+{
+  title: 'Requestor',
+  align : 'center',  
+  wdith : '150px',
+  render: (text, record) => (
+    <div className="text-left">
+    {record.requestor.name}
+      {/* <Row>
         <Col span={24} className={'text-left'}><b>{record.requestor.name}</b></Col>
       </Row>
       <Row>
         <Col span={24} className={'text-right'}> <b>M :</b> {record.requestor.mobile} <b>Last Action</b> {moment(record.requestor.actionOn,'YYYY-MM-DD').format('DD/MM/YYYY') }</Col>
-      </Row>
+      </Row> */}
     </div>
   ),
 }];

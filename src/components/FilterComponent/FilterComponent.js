@@ -21,8 +21,9 @@ import { WaitingPageAPI } from "../../services/apiService";
 import { mapDataFilterWaitingPage } from '../../helpers/mappingData';
 
 const dateFormat = 'DD/MM/YYYY';
-const checkOptions = [{ text: 'TRAVEL', value: 'Travel' },
-{ text: 'OTHER', value: 'Other' }];
+const checkOptions = [{ text: 'TRAVEL PLAN', value: 'Travel' },
+{ text: 'TRAVEL CLAIM', value: 'Other' },
+{ text: 'OTHER EXPENSE', value: 'Other' }];
 
 class ConnectFilterComponentForm extends Component {
   constructor() {

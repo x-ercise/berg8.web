@@ -1,5 +1,5 @@
 import React from 'react';
-import MyTask from './pages/WaitingPage/MyTask';
+import WaitingPage from './pages/WaitingPage/WaitingPage';
 import { Spin } from 'antd';
 import { connect } from "react-redux";
 
@@ -13,7 +13,7 @@ const AppForm = (props) => {
   const {flag}  = props;
   return (
     <Spin size="large" spinning={flag}>
-      <MyTask />
+      <WaitingPage />
     </Spin>
   );
 };

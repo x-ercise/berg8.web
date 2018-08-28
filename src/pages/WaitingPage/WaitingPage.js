@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 //import logo from './logo.svg';
-import './MyTask.css';
+import './WaitingPage.css';
 import 'antd/dist/antd.css';
 import { Layout, Drawer ,Icon } from 'antd';
 import { Card } from 'antd';
 import FilterComponent from '../../components/FilterComponent/FilterComponent';
 import DataTableComponent from '../../components/DataTableComponent/DataTableComponent';
 import HeaderButtonWaiting from '../../components/DataTableComponent/HeaderButton';
+import MyTaskComponent from '../../components/MyTask/MyTaskComponent';
 import { WaitingPageAPI } from "../../services/apiService";
 import { connect } from "react-redux";
 import {
@@ -16,7 +17,7 @@ import {
 
 const { Content } = Layout;
 
-class MyTaskTemp extends Component {
+class WaitingPageTemp extends Component {
     state = { visible: false, 
               iconName : 'menu-unfold'
     };
@@ -64,8 +65,9 @@ class MyTaskTemp extends Component {
                         onClose={this.onClose}
                         visible={this.state.visible}
                         style={{padding:0}}
-                        
+                        width={'300px'}
                     >
+                    <MyTaskComponent></MyTaskComponent>
                          <FilterComponent></FilterComponent>
                     </Drawer>
                     <div className='row'>
@@ -98,6 +100,6 @@ const mapStateToProps = state => {
     };
   };
   
-  const MyTask = connect(mapStateToProps, mapDispatchToProps)(MyTaskTemp);
-  export default MyTask;
+  const WaitingPage = connect(mapStateToProps, mapDispatchToProps)(WaitingPageTemp);
+  export default WaitingPage;
   
