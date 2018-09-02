@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
 
-import { Card, Row,Col, Badge } from 'antd';
+import { Card, Row, Col, Badge } from 'antd';
 
 const checkOptions = [
     { text: 'Waiting for Approval', value: '5' },
@@ -14,10 +14,10 @@ class connectMyTask extends Component {
         return (
             <Card title="My Task - Pending" style={{ height: '100%' }}>
                 {checkOptions.map((el, i) => (
-                    <Row key={el.value}>
-                    <Col span={4}><Badge count={el.value}></Badge></Col>
-                    <Col span={20}>{el.text}</Col>
-                       
+                    <Row key={el.value} type="flex" justify="center" align="middle">
+                        <Col span={4}><Badge count={el.value}></Badge></Col>
+                        <Col span={20}>{el.text}</Col>
+
                         {/* <Checkbox key={el.value} value={el.value} onChange={this.toggleCheckbox} >{el.text}</Checkbox> */}
                     </Row>
                 ))}

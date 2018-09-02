@@ -22,8 +22,8 @@ import { mapDataFilterWaitingPage } from '../../helpers/mappingData';
 
 const dateFormat = 'DD/MM/YYYY';
 const checkOptions = [{ text: 'TRAVEL PLAN', value: 'Travel' },
-{ text: 'TRAVEL CLAIM', value: 'Other' },
-{ text: 'OTHER EXPENSE', value: 'Other' }];
+{ text: 'TRAVEL CLAIM', value: 'Other1' },
+{ text: 'OTHER EXPENSE', value: 'Other2' }];
 
 class ConnectFilterComponentForm extends Component {
   constructor() {
@@ -39,7 +39,7 @@ class ConnectFilterComponentForm extends Component {
         },
         FILTER: {
           ACTIVITY_NAME: "WAITING APPROVAL",
-          REQUEST_TYPE: 'Travel', //other
+          REQUEST_TYPE: [], //other
           DESCTIPTION: '',
           REQUESTOR: '',
           PERIOD_EXPENSE: {
