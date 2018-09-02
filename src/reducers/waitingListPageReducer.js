@@ -6,7 +6,8 @@ import {
     INI_FILTER_WAITING_PAGE,
     ON_SET_DATE_TABLE_WAITING_PAGE,
     ON_CLICK_BUTTON_WAITING_PAGE,
-    ON_ACTION_RESPONSE_WAITING_PAGE
+    ON_ACTION_RESPONSE_WAITING_PAGE,
+    API_REQUEST_COMMAND_WAITING_PAGE
 } from "../constants/waiting-page-types";
 
 const defaultState = {
@@ -23,7 +24,8 @@ const defaultState = {
             End: ''
         },
         Action: ''
-    }
+    },
+    actions: []
 };
 
 const TransfromData = (data) => {
@@ -56,6 +58,8 @@ const waitingListPageReducer = (state = defaultState, action) => {
                 return { ...state, ...{ data: TransfromData(action.data), selected: [] } };
             }
             return state;
+        case API_REQUEST_COMMAND_WAITING_PAGE:
+            return {...state, actions : action.actions}
         default:
             return state;
     }

@@ -6,7 +6,8 @@ import {
     IniFilterWaitingPage,
     SetDataTableWaitingPage,
     OnClickButtonWaitingPage,
-    OnAfterActionResponseWaitingPage
+    OnAfterActionResponseWaitingPage,
+    OnRequestCommandWaitingPage
     // OnSendBackResponseWaitingPage,
     // OnRejectResponseWaitingPage,
     // OnApproveResponseWaitingPage
@@ -24,6 +25,7 @@ export {
     OnClickButtonWaitingPage,
     OnAfterActionResponseWaitingPage,
     SetDataTableWaitingPage,
+    OnRequestCommandWaitingPage,
     // Global Action
     SetFlagLoading
 }

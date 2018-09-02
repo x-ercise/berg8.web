@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const url = 'https://berg8apidev.azurewebsites.net/workflow/GetDocuments';
+const url = 'https://berg8apidev.azurewebsites.net';
 const headers = {
-    'Accept' : 'appliction/json',
-    'Content-Type':  'multipart/form-data',
+    'Accept': 'appliction/json',
+    'Content-Type': 'multipart/form-data',
 }
 
 const dataRequest = {
@@ -27,7 +27,18 @@ const dataRequest = {
 }
 
 export const WaitingPageAPI = async (data = dataRequest) => {
-   
-       return await axios
-        .post(url, data, headers)
+
+    return await axios
+        .post(url + '/workflow/GetDocuments', data, headers)
+}
+
+export const GetCommandActionAPI = async (params) => {
+    return await axios.post(url + '/workflow/GetCommandActions', {
+        OPERATOR : {
+            CODE : 'NONE',
+            NAME : 'NONE',
+            EMAIL: 'NONE',
+            CONTACT_NO : 'NONE'
+        }
+    }, headers)
 }
