@@ -8,23 +8,24 @@ import { Row, Col } from 'antd';
 
 const columns = [{
   title: 'Doc. ID',
-  align : 'center',  
-  dataIndex: 'documentNo',
-  width : '120px'
+  align: 'center',
+  dataIndex: 'CODE',
+  width: '120px'
   // render: text => <a href="javascript:;">{text}</a>,
 }, {
   title: 'Travelling Date',
-  align : 'center',  
-  width : '220px',
+  align: 'center',
+  width: '220px',
   render: (text, record) => (
     <span>
-      {moment(record.plan.begin,'YYYY-MM-DD').format('DD/MM/YYYY')} - {moment(record.plan.end,'YYYY-MM-DD').format('DD/MM/YYYY')}
+      {moment(record.PLAN_BEGIN, 'YYYY-MM-DD').format('DD/MM/YYYY')} - {moment(record.PLAN_END, 'YYYY-MM-DD').format('DD/MM/YYYY')}
     </span>
   )
 }, {
   title: 'Subject',
-  align : 'center',  
-  width : '300px',
+  align: 'center',
+  width: '300px',
+  dataIndex: 'SUBJECT',
   // render: (text, record) => (
   //   <span>
   //     {moment(record.plan.begin,'YYYY-MM-DD').format('DD/MM/YYYY')} - {moment(record.plan.end,'YYYY-MM-DD').format('DD/MM/YYYY')}
@@ -32,21 +33,21 @@ const columns = [{
   // )
 }, {
   title: 'Type',
-  align : 'center',  
-  width : '100px',
+  align: 'center',
+  width: '100px',
   render: (text, record) => (
     <div className="text-left">
-      Type
+      {record.TYPE}
     </div>
   )
 },
 {
   title: 'Status',
-  align : 'center',  
-  width : '100px',
+  align: 'center',
+  width: '100px',
   render: (text, record) => (
     <div className="text-left">
-      Status
+      {record.STATUS}
     </div>
   )
 },
@@ -69,11 +70,11 @@ const columns = [{
 // }, 
 {
   title: 'Requestor',
-  align : 'center',  
-  wdith : '150px',
+  align: 'center',
+  wdith: '150px',
   render: (text, record) => (
     <div className="text-left">
-    {record.requestor.name}
+      {record.REQUETOR}
       {/* <Row>
         <Col span={24} className={'text-left'}><b>{record.requestor.name}</b></Col>
       </Row>
@@ -98,7 +99,7 @@ class ConnectDataTableComponentForm extends Component {
     // };
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     this.setState({
       selectedRowKeys: nextProps.selectedItem, // Check here to configure the default column
     })
@@ -113,7 +114,7 @@ class ConnectDataTableComponentForm extends Component {
     this.setState({ loading: true });
     // ajax request after empty completing
     setTimeout(() => {
-      
+
       this.setState({
         selectedRowKeys: [],
         loading: false,
@@ -129,12 +130,12 @@ class ConnectDataTableComponentForm extends Component {
       onChange: this.onSelectChange,
     };
     return (
-        <Table rowSelection={rowSelection} 
-        columns={columns} 
-        dataSource={this.props.data} 
+      <Table rowSelection={rowSelection}
+        columns={columns}
+        dataSource={this.props.data}
         size={"small"}
-        scroll={{ x:930 }}
-        bordered = {true}/>
+        scroll={{ x: 930 }}
+        bordered={true} />
     );
   }
 }

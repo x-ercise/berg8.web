@@ -13,10 +13,10 @@ class connectMyTask extends Component {
     render() {
         return (
             <Card title="My Task - Pending" style={{ height: '100%' }}>
-                {checkOptions.map((el, i) => (
+                {this.props.data.map((el, i) => (
                     <Row key={el.value} type="flex" justify="center" align="middle">
-                        <Col span={4}><Badge count={el.value}></Badge></Col>
-                        <Col span={20}>{el.text}</Col>
+                        <Col span={4}><Badge count={el.COUNT}></Badge></Col>
+                        <Col span={20}>{el.STATUS}</Col>
 
                         {/* <Checkbox key={el.value} value={el.value} onChange={this.toggleCheckbox} >{el.text}</Checkbox> */}
                     </Row>
@@ -29,7 +29,7 @@ class connectMyTask extends Component {
 
 const mapStateToProps = state => {
     return {
-
+        data : state.waitingListPage.myTasks
     }
 }
 

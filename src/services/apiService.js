@@ -42,3 +42,14 @@ export const GetCommandActionAPI = async (params) => {
         }
     }, headers)
 }
+
+export const GetTaskAPI = async (params) => {
+    return await axios.post(url + '/workflow/GetTasks', {
+        OPERATOR : {
+            CODE : 'NONE',
+            NAME : 'NONE',
+            EMAIL: 'NONE',
+            CONTACT_NO : 'NONE'
+        }
+    }, headers)
+}

@@ -8,12 +8,13 @@ import FilterComponent from '../../components/FilterComponent/FilterComponent';
 import DataTableComponent from '../../components/DataTableComponent/DataTableComponent';
 import HeaderButtonWaiting from '../../components/DataTableComponent/HeaderButton';
 import MyTaskComponent from '../../components/MyTask/MyTaskComponent';
-import { WaitingPageAPI, GetCommandActionAPI } from "../../services/apiService";
+import { WaitingPageAPI, GetCommandActionAPI, GetTaskAPI } from "../../services/apiService";
 import { connect } from "react-redux";
 import {
     SetFlagLoading,
     SetDataTableWaitingPage,
-    OnRequestCommandWaitingPage
+    OnRequestCommandWaitingPage,
+    OnRequestTaskWaitingPage
 } from "../../actions";
 
 const { Content } = Layout;
@@ -30,25 +31,42 @@ class WaitingPageTemp extends Component {
 
         WaitingPageAPI()
             .then(resolve => {
-                this.props.SetFlagLoading(false);
+                // this.props.SetFlagLoading(false);
                 if (resolve.status === 200) {
-                    // let dataTransfrom = resolve.data.data.map((e) => ({ key: e.documentNo, ...e }));
+
                     this.props.SetData(resolve.data.data);
+
+                    GetCommandActionAPI().then(resolve => {
+                        //  this.props.SetFlagLoading(false);
+
+                        if (resolve.status === 200) {
+
+                            this.props.SetCommand(resolve.data.actions);
+
+                            GetTaskAPI().then(resolve => {
+                                this.props.SetFlagLoading(false);
+                                if (resolve.status === 200) {
+                                    this.props.SetMyTask();
+                                }
+                                else throw resolve;
+                            }).catch(error => { 
+                                this.props.SetFlagLoading(false); 
+                                const checkOptions = [
+                                    { STATUS: 'Waiting for Approval', COUNT: '5' },
+                                    { STATUS: 'Waiting for Accountant Review', COUNT: '11' },
+                                    { STATUS: 'Waiting for Payment', COUNT: '6' },
+                                    { STATUS: 'Returned', COUNT: '7' }];
+                                this.props.SetMyTask(checkOptions);
+                            });
+                        }
+                        else throw resolve;
+                    }).catch(error => { this.props.SetFlagLoading(false); });
                 }
                 else throw resolve;
             })
             .catch(error => { this.props.SetFlagLoading(false); }
             );
 
-        GetCommandActionAPI().then(resolve => {
-            this.props.SetFlagLoading(false);
-            console.log(resolve);
-            if (resolve.status === 200) {
-                // let dataTransfrom = resolve.data.data.map((e) => ({ key: e.documentNo, ...e }));
-                this.props.SetCommand(resolve.data.actions);
-            }
-            else throw resolve;
-        }).catch(error => { this.props.SetFlagLoading(false); });
     }
 
     showDrawer = () => {
@@ -109,7 +127,8 @@ const mapDispatchToProps = dispatch => {
     return {
         SetFlagLoading: flag => dispatch(SetFlagLoading(flag)),
         SetData: data => dispatch(SetDataTableWaitingPage(data)),
-        SetCommand: actions => dispatch(OnRequestCommandWaitingPage(actions))
+        SetCommand: actions => dispatch(OnRequestCommandWaitingPage(actions)),
+        SetMyTask: data => dispatch(OnRequestTaskWaitingPage(data))
     };
 };
 

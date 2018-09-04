@@ -7,7 +7,8 @@ import {
     SetDataTableWaitingPage,
     OnClickButtonWaitingPage,
     OnAfterActionResponseWaitingPage,
-    OnRequestCommandWaitingPage
+    OnRequestCommandWaitingPage,
+    OnRequestTaskWaitingPage
     // OnSendBackResponseWaitingPage,
     // OnRejectResponseWaitingPage,
     // OnApproveResponseWaitingPage
@@ -26,6 +27,7 @@ export {
     OnAfterActionResponseWaitingPage,
     SetDataTableWaitingPage,
     OnRequestCommandWaitingPage,
+    OnRequestTaskWaitingPage,
     // Global Action
     SetFlagLoading
 }

@@ -7,7 +7,8 @@ import {
     INI_FILTER_WAITING_PAGE,
     ON_SET_DATE_TABLE_WAITING_PAGE,
     ON_ACTION_RESPONSE_WAITING_PAGE,
-    API_REQUEST_COMMAND_WAITING_PAGE
+    API_REQUEST_COMMAND_WAITING_PAGE,
+    API_REQUEST_TASK_WAITING_PAGE
     // ON_APPROVE_RESPONSE_WAITING_PAGE,
     // ON_REJECT_RESPONSE_WAITING_PAGE,
     // ON_SEND_BACK_RESPONSE_WAITING_PAGE
@@ -59,3 +60,10 @@ export const OnRequestCommandWaitingPage = data => ({
     type: API_REQUEST_COMMAND_WAITING_PAGE,
     actions: data
 });
+
+export const OnRequestTaskWaitingPage = data => ({
+    type: API_REQUEST_TASK_WAITING_PAGE,
+    data
+});
+
+
