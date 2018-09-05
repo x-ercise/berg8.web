@@ -89,11 +89,11 @@ class ConnectHeaderButtonWaitingForm extends Component {
     render() {
         return (<div className="row">
 
-            <div className="col col-sm-12" style={{ paddingBottom: '5px' }}>
+            <div className="col col-sm-12 col-md-6 col-lg-6" style={{ paddingBottom: '5px' }}>
                 {/* <Button type="primary" >ADD</Button> */}
 
                 {this.props.butonCommand.map((el, i) => (
-                    <Button type="primary" key={i} className={el.visibled ?'' : 'hide'  } onClick={() => this.onRequest(el.code)} disabled={!el.enabled} >{el.text}</Button>
+                    <Button type="primary" key={i} className={el.visibled ?'' : 'hide'  } onClick={() => this.onRequest(el.code)} disabled={!el.enabled || this.props.selectedItem.length <= 0} >{el.text}</Button>
                 ))}
 
 
@@ -103,11 +103,11 @@ class ConnectHeaderButtonWaitingForm extends Component {
 
             </div>
 
-            {/* <div className="col col-sm-6 text-right">
+            <div className="col col-sm-12 col-md-6 col-lg-6 text-right">
                 <Button type="primary" disabled={this.props.selectedItem.length <= 0}>XLS</Button>
                 <Button type="primary" disabled={this.props.selectedItem.length <= 0}>PDF</Button>
                 <Button type="primary" disabled={this.props.selectedItem.length <= 0}>PRINT</Button>
-            </div> */}
+            </div>
         </div>)
     }
 }

@@ -1,13 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
-
 import { Card, Row, Col, Badge } from 'antd';
-
-const checkOptions = [
-    { text: 'Waiting for Approval', value: '5' },
-    { text: 'Waiting for Accountant Review', value: '11' },
-    { text: 'Waiting for Payment', value: '6' },
-    { text: 'Returned', value: '7' }];
 
 class connectMyTask extends Component {
     render() {

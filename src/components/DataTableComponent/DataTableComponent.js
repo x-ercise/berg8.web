@@ -11,11 +11,10 @@ const columns = [{
   align: 'center',
   dataIndex: 'CODE',
   width: '120px'
-  // render: text => <a href="javascript:;">{text}</a>,
 }, {
   title: 'Travelling Date',
   align: 'center',
-  width: '220px',
+  width: '200px',
   render: (text, record) => (
     <span>
       {moment(record.PLAN_BEGIN, 'YYYY-MM-DD').format('DD/MM/YYYY')} - {moment(record.PLAN_END, 'YYYY-MM-DD').format('DD/MM/YYYY')}
@@ -24,13 +23,8 @@ const columns = [{
 }, {
   title: 'Subject',
   align: 'center',
-  width: '300px',
+  width: '330px',
   dataIndex: 'SUBJECT',
-  // render: (text, record) => (
-  //   <span>
-  //     {moment(record.plan.begin,'YYYY-MM-DD').format('DD/MM/YYYY')} - {moment(record.plan.end,'YYYY-MM-DD').format('DD/MM/YYYY')}
-  //   </span>
-  // )
 }, {
   title: 'Type',
   align: 'center',
@@ -51,36 +45,13 @@ const columns = [{
     </div>
   )
 },
-
-// , 
-// {
-//   title: 'DESCRIPTION',
-//   align : 'center',  
-//   width : '250px',
-//   render: (text, record) => (
-//     <div>
-//       <Row>
-//         <Col span={24} className={'text-left'}>{record.description}</Col>
-//       </Row>
-//       <Row>
-//         <Col span={24} className={'text-right'}> <b>VER.</b> {record.version} <b>REV.</b> {record.revision}</Col>
-//       </Row>
-//     </div>
-//   )
-// }, 
 {
   title: 'Requestor',
   align: 'center',
-  wdith: '150px',
+  wdith: '200px',
   render: (text, record) => (
     <div className="text-left">
       {record.REQUETOR}
-      {/* <Row>
-        <Col span={24} className={'text-left'}><b>{record.requestor.name}</b></Col>
-      </Row>
-      <Row>
-        <Col span={24} className={'text-right'}> <b>M :</b> {record.requestor.mobile} <b>Last Action</b> {moment(record.requestor.actionOn,'YYYY-MM-DD').format('DD/MM/YYYY') }</Col>
-      </Row> */}
     </div>
   ),
 }];
@@ -134,7 +105,7 @@ class ConnectDataTableComponentForm extends Component {
         columns={columns}
         dataSource={this.props.data}
         size={"small"}
-        scroll={{ x: 930 }}
+        scroll={{ x: 1050 }}
         bordered={true} />
     );
   }

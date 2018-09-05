@@ -50,6 +50,7 @@ export const GetTaskAPI = async (params) => {
             NAME : 'NONE',
             EMAIL: 'NONE',
             CONTACT_NO : 'NONE'
-        }
+        },
+        WIDGET : 'TASK'
     }, headers)
 }
