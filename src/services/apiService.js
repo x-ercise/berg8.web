@@ -6,27 +6,47 @@ const headers = {
     'Content-Type': 'multipart/form-data',
 }
 
+// const dataRequest = {
+//     REFRESH_TOKEN: '',
+//     PROFILE: {
+//         USER_CODE: '',
+//         POSITION_CODE: '',
+//     },
+//     FILTER: {
+//         ACTIVITY_NAME: "WAITING APPROVAL",
+//         REQUEST_TYPE: [], //other
+//         DESCTIPTION: '',
+//         REQUESTOR: '',
+//         PERIOD_EXPENSE: {
+//             BEGIN: '2018-01-01',
+//             END: '9999-12-31'
+//         }
+//     },
+//     SELECTION: [],
+//     ACTION: 'INIT' //ADD, AMEND, APPROVE, REJECT, SND BACK, XLS, PDF
+// }
+
 const dataRequest = {
-    REFRESH_TOKEN: '',
-    PROFILE: {
-        USER_CODE: '',
-        POSITION_CODE: '',
+    OPERATOR: {
+        CODE: '',
+        NAME: '',
+        EMAIL: '',
+        CONTACT_NO: ''
     },
     FILTER: {
-        ACTIVITY_NAME: "WAITING APPROVAL",
-        REQUEST_TYPE: [], //other
+        REQUEST_TYPE : [],
+        CLAIM_TYPE :[],
         DESCTIPTION: '',
         REQUESTOR: '',
-        PERIOD_EXPENSE: {
-            BEGIN: '2018-01-01',
-            END: '9999-12-31'
-        }
-    },
-    SELECTION: [],
-    ACTION: 'INIT' //ADD, AMEND, APPROVE, REJECT, SND BACK, XLS, PDF
+        PREVIOUS: '',
+        PERIOD_BEGIN: '2018-01-01',
+        PERIOD_END: '9999-12-31'
+
+    }
 }
 
-export const WaitingPageAPI = async (data = dataRequest) => {
+
+export const GetDocumentListAPI = async (data = dataRequest) => {
 
     return await axios
         .post(url + '/workflow/GetDocuments', data, headers)

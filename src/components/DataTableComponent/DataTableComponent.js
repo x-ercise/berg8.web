@@ -51,7 +51,7 @@ const columns = [{
   wdith: '200px',
   render: (text, record) => (
     <div className="text-left">
-      {record.REQUETOR}
+      {record.REQUETOR.NAME}
     </div>
   ),
 }];

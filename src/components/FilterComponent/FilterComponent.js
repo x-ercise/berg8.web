@@ -17,43 +17,22 @@ import {
   SetDataTableWaitingPage,
   OnInitDataTalbeWaitingPage
 } from "../../actions";
-import { WaitingPageAPI } from "../../services/apiService";
+import { GetDocumentListAPI } from "../../services/apiService";
 import { mapDataFilterWaitingPage } from '../../helpers/mappingData';
 
 const dateFormat = 'DD/MM/YYYY';
-const checkOptions = [{ text: 'TRAVEL PLAN', value: 'Travel' },
-{ text: 'TRAVEL CLAIM', value: 'Other1' },
-{ text: 'OTHER EXPENSE', value: 'Other2' }];
 
 class ConnectFilterComponentForm extends Component {
   constructor() {
     super();
     this.state = {
       startDate: null,
-      endDate: null,
-      filterForm: {
-        REFRESH_TOKEN: '',
-        PROFILE: {
-          USER_CODE: '',
-          POSITION_CODE: '',
-        },
-        FILTER: {
-          ACTIVITY_NAME: "WAITING APPROVAL",
-          REQUEST_TYPE: [], //other
-          DESCTIPTION: '',
-          REQUESTOR: '',
-          PERIOD_EXPENSE: {
-            BEGIN: '2018-01-01',
-            END: '9999-12-31'
-          }
-        },
-        SELECTION: [],
-        ACTION: 'INIT' //ADD, AMEND, APPROVE, REJECT, SND BACK, XLS, PDF
-      }
+      endDate: null
     }
 
     moment.defaultFormat = dateFormat;
-    this.toggleCheckbox = this.toggleCheckbox.bind(this);
+    this.toggleCheckboxRequest = this.toggleCheckboxRequest.bind(this);
+    this.toggleCheckboxClaim = this.toggleCheckboxClaim.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleRequestorChange = this.handleRequestorChange.bind(this);
     this.handleFromDateChange = this.handleFromDateChange.bind(this);
@@ -61,23 +40,7 @@ class ConnectFilterComponentForm extends Component {
     this.onClickFilter = this.onClickFilter.bind(this);
   }
 
-  // componentDidMount(){
-  //   this.props.SetFlagLoading(true);
-
-  //   WaitingPageAPI()
-  //   .then(resolve => {
-  //     this.props.SetFlagLoading(false);
-  //     if (resolve.status === 200) {
-  //      // let dataTransfrom = resolve.data.data.map((e) => ({ key: e.documentNo, ...e }));
-  //       this.props.SetData(resolve.data.data);
-  //     }
-  //     else throw resolve;
-  //   })
-  //   .catch(error => { this.props.SetFlagLoading(false); }
-  //   );
-  // }
-
-  toggleCheckbox(event) {
+  toggleCheckboxRequest(event) {
     let model = { ...this.props.filter };
     if (model.RequestType.includes(event.target.value)) {
       var index = model.RequestType.indexOf(event.target.value);
@@ -88,6 +51,21 @@ class ConnectFilterComponentForm extends Component {
       model.RequestType.push(event.target.value);
     }
     this.setState({ RequestType: [...model.RequestType] });
+
+    this.props.OnCriteriaChange(model);
+  }
+
+  toggleCheckboxClaim(event) {
+    let model = { ...this.props.filter };
+    if (model.ClaimType.includes(event.target.value)) {
+      var index = model.ClaimType.indexOf(event.target.value);
+      if (index > -1) {
+        model.ClaimType.splice(index, 1);
+      }
+    } else {
+      model.ClaimType.push(event.target.value);
+    }
+    this.setState({ ClaimType: [...model.ClaimType] });
 
     this.props.OnCriteriaChange(model);
   }
@@ -140,12 +118,12 @@ class ConnectFilterComponentForm extends Component {
   }
 
   onClickFilter = () => {
-    let model = { ...this.props.filter , Action : 'INIT'};
+    let model = { ...this.props.filter, Action: 'INIT' };
     this.props.OnClickFilter(model);
     this.props.SetFlagLoading(true);
     let data = mapDataFilterWaitingPage(model);
 
-    WaitingPageAPI(data)
+    GetDocumentListAPI(data)
       .then(resolve => {
         this.props.SetFlagLoading(false);
         if (resolve.status === 200) {
@@ -160,12 +138,21 @@ class ConnectFilterComponentForm extends Component {
 
   render() {
     return (
-      <Card title="Filters" style={{height:'100%'}} extra={<Button type="primary" onClick={this.onClickFilter}>Filters</Button>} >
-        {checkOptions.map((el, i) => (
-          <Row key={el.value}>
-            <Checkbox key={el.value} value={el.value} onChange={this.toggleCheckbox} >{el.text}</Checkbox>
-          </Row>
-        ))}
+      <Card title="Filters" style={{ height: '100%' }} extra={<Button type="primary" onClick={this.onClickFilter}>Filters</Button>} >
+        Request
+        <Row >
+          <Checkbox value="TRAVEL" onChange={this.toggleCheckboxRequest} >Travel</Checkbox>
+        </Row>
+        <Row>
+          <Checkbox value="OTHER" onChange={this.toggleCheckboxRequest} >Others</Checkbox>
+        </Row>
+        Claim
+        <Row >
+          <Checkbox value="TRAVEL" onChange={this.toggleCheckboxClaim} >Travel</Checkbox>
+        </Row>
+        <Row>
+          <Checkbox value="OTHER" onChange={this.toggleCheckboxClaim} >Others</Checkbox>
+        </Row>
         <hr />
         <Row style={{ marginBottom: '5px' }}>
 
@@ -177,14 +164,14 @@ class ConnectFilterComponentForm extends Component {
         <hr />
         PERIOD TO SPEND
         <Row style={{ marginBottom: '5px' }}>
-          <DatePicker placeholder="FROM DATE" style={{width:"100%"}}
+          <DatePicker placeholder="FROM DATE" style={{ width: "100%" }}
             disabledDate={this.disabledStartDate}
             format={dateFormat}
             value={this.state.startDate}
             onChange={this.handleFromDateChange} />
         </Row>
         <Row>
-          <DatePicker placeholder="TO DATE" format={dateFormat}  style={{width:"100%"}}
+          <DatePicker placeholder="TO DATE" format={dateFormat} style={{ width: "100%" }}
             disabledDate={this.disabledEndDate}
             value={this.state.endDate}
             onChange={this.handleToDateChange} />

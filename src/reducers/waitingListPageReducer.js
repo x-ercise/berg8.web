@@ -17,6 +17,7 @@ const defaultState = {
     filter: {
         Status: "WAITING APPROVAL",
         RequestType: [],
+        ClaimType:[],
         Description: '',
         Requestor: '',
         FromDate: '',

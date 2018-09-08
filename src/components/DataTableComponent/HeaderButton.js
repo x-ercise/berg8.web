@@ -10,7 +10,7 @@ import {
     OnAfterActionResponseWaitingPage
 } from "../../actions";
 import { mapDataFilterWaitingPage } from '../../helpers/mappingData';
-import { WaitingPageAPI } from "../../services/apiService";
+import { GetDocumentListAPI } from "../../services/apiService";
 
 const confirm = Modal.confirm;
 
@@ -31,7 +31,7 @@ class ConnectHeaderButtonWaitingForm extends Component {
         data.SELECTION = [...this.props.selectedItem];
 
         this.props.SetFlagLoading(true);
-        WaitingPageAPI(data).then(resolve => {
+        GetDocumentListAPI(data).then(resolve => {
 
             this.props.SetFlagLoading(false);
             if (resolve.status === 200) {
@@ -93,7 +93,7 @@ class ConnectHeaderButtonWaitingForm extends Component {
                 {/* <Button type="primary" >ADD</Button> */}
 
                 {this.props.butonCommand.map((el, i) => (
-                    <Button type="primary" key={i} className={el.visibled ?'' : 'hide'  } onClick={() => this.onRequest(el.code)} disabled={!el.enabled || this.props.selectedItem.length <= 0} >{el.text}</Button>
+                    <Button type="primary" key={i} className={el.VISIBLED ?'' : 'hide'  } onClick={() => this.onRequest(el.CODE)} disabled={!el.ENABLED || this.props.selectedItem.length <= 0} >{el.TEXT}</Button>
                 ))}
 
 

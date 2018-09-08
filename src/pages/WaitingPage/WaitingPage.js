@@ -8,7 +8,7 @@ import FilterComponent from '../../components/FilterComponent/FilterComponent';
 import DataTableComponent from '../../components/DataTableComponent/DataTableComponent';
 import HeaderButtonWaiting from '../../components/DataTableComponent/HeaderButton';
 import MyTaskComponent from '../../components/MyTask/MyTaskComponent';
-import { WaitingPageAPI, GetCommandActionAPI, GetTaskAPI } from "../../services/apiService";
+import { GetDocumentListAPI, GetCommandActionAPI, GetTaskAPI } from "../../services/apiService";
 import { connect } from "react-redux";
 import {
     SetFlagLoading,
@@ -29,43 +29,52 @@ class WaitingPageTemp extends Component {
     componentDidMount() {
         this.props.SetFlagLoading(true);
 
-        WaitingPageAPI()
+        GetDocumentListAPI()
             .then(resolve => {
                 // this.props.SetFlagLoading(false);
                 if (resolve.status === 200) {
 
                     this.props.SetData(resolve.data.data);
 
-                    GetCommandActionAPI().then(resolve => {
-                        //  this.props.SetFlagLoading(false);
 
-                        if (resolve.status === 200) {
-
-                            this.props.SetCommand(resolve.data.actions);
-
-                            GetTaskAPI().then(resolve => {
-                                this.props.SetFlagLoading(false);
-                                if (resolve.status === 200) {
-                                    this.props.SetMyTask();
-                                }
-                                else throw resolve;
-                            }).catch(error => { 
-                                this.props.SetFlagLoading(false); 
-                                const checkOptions = [
-                                    { STATUS: 'Waiting for Approval', COUNT: '5' },
-                                    { STATUS: 'Waiting for Accountant Review', COUNT: '11' },
-                                    { STATUS: 'Waiting for Payment', COUNT: '6' },
-                                    { STATUS: 'Returned', COUNT: '7' }];
-                                this.props.SetMyTask(checkOptions);
-                            });
-                        }
-                        else throw resolve;
-                    }).catch(error => { this.props.SetFlagLoading(false); });
                 }
                 else throw resolve;
             })
             .catch(error => { this.props.SetFlagLoading(false); }
             );
+
+        GetCommandActionAPI().then(resolve => {
+            //  this.props.SetFlagLoading(false);
+
+            if (resolve.status === 200) {
+
+                this.props.SetCommand(resolve.data.actions);
+
+                GetTaskAPI().then(resolve => {
+                    this.props.SetFlagLoading(false);
+                    if (resolve.status === 200) {
+                        if (resolve.data.TASKS) {
+                            this.props.SetMyTask(resolve.data.TASKS);
+                        }else{
+                            const checkOptions = [
+                                { STATUS: 'ไม่มี TASKS มาจาก API', COUNT: '5' },
+                             ];
+                            this.props.SetMyTask(checkOptions);
+                        }
+                    }
+                    else throw resolve;
+                }).catch(error => {
+                    this.props.SetFlagLoading(false);
+                    const checkOptions = [
+                        { STATUS: 'Waiting for Approval', COUNT: '5' },
+                        { STATUS: 'Waiting for Accountant Review', COUNT: '11' },
+                        { STATUS: 'Waiting for Payment', COUNT: '6' },
+                        { STATUS: 'Returned', COUNT: '7' }];
+                    this.props.SetMyTask(checkOptions);
+                });
+            }
+            else throw resolve;
+        }).catch(error => { this.props.SetFlagLoading(false); });
 
     }
 
