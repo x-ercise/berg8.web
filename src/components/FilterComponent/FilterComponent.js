@@ -127,7 +127,7 @@ class ConnectFilterComponentForm extends Component {
       .then(resolve => {
         this.props.SetFlagLoading(false);
         if (resolve.status === 200) {
-          this.props.SetData(resolve.data.data);
+          this.props.SetData(resolve.data.DOCUMENTS);
         }
         else throw resolve;
       })

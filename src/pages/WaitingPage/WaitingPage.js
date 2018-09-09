@@ -33,10 +33,7 @@ class WaitingPageTemp extends Component {
             .then(resolve => {
                 // this.props.SetFlagLoading(false);
                 if (resolve.status === 200) {
-
-                    this.props.SetData(resolve.data.data);
-
-
+                    this.props.SetData(resolve.data.DOCUMENTS);
                 }
                 else throw resolve;
             })
@@ -45,10 +42,9 @@ class WaitingPageTemp extends Component {
 
         GetCommandActionAPI().then(resolve => {
             //  this.props.SetFlagLoading(false);
-
             if (resolve.status === 200) {
 
-                this.props.SetCommand(resolve.data.actions);
+                this.props.SetCommand(resolve.data.ACTIONS);
 
                 GetTaskAPI().then(resolve => {
                     this.props.SetFlagLoading(false);

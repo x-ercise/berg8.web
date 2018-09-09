@@ -27,16 +27,17 @@ const headers = {
 // }
 
 const dataRequest = {
+    REFRESH_TOKEN : '',
     OPERATOR: {
-        CODE: '',
+        CODE: 'REQUESTOR',
         NAME: '',
         EMAIL: '',
         CONTACT_NO: ''
     },
     FILTER: {
-        REQUEST_TYPE : [],
-        CLAIM_TYPE :[],
-        DESCTIPTION: '',
+        REQUEST_TYPES : [],
+        CLAIM_TYPES :[],
+        DESCRIPTION: '',
         REQUESTOR: '',
         PREVIOUS: '',
         PERIOD_BEGIN: '2018-01-01',
@@ -55,7 +56,7 @@ export const GetDocumentListAPI = async (data = dataRequest) => {
 export const GetCommandActionAPI = async (params) => {
     return await axios.post(url + '/workflow/GetCommandActions', {
         OPERATOR : {
-            CODE : 'NONE',
+            CODE : 'REQUESTOR',
             NAME : 'NONE',
             EMAIL: 'NONE',
             CONTACT_NO : 'NONE'
@@ -66,7 +67,7 @@ export const GetCommandActionAPI = async (params) => {
 export const GetTaskAPI = async (params) => {
     return await axios.post(url + '/workflow/GetTasks', {
         OPERATOR : {
-            CODE : 'NONE',
+            CODE : 'REQUESTOR',//'REQUESTOR' , 'APPROVER'
             NAME : 'NONE',
             EMAIL: 'NONE',
             CONTACT_NO : 'NONE'

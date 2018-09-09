@@ -10,9 +10,9 @@ export const mapDataFilterWaitingPage = (filter) => {
             CONTACT_NO: ''
         },
         FILTER: {
-            REQUEST_TYPE : filter.RequestType,
-            CLAIM_TYPE : filter.ClaimType,
-            DESCTIPTION: filter.Description,
+            REQUEST_TYPES : filter.RequestType,
+            CLAIM_TYPES : filter.ClaimType,
+            DESCRIPTION: filter.Description,
             REQUESTOR: filter.Requestor,
             PREVIOUS:'',
             PERIOD_BEGIN: filter.ExpensePeriod.Begin ? moment(filter.ExpensePeriod.Begin, 'DD/MM/YYYY').format('YYYY-MM-DD') : '2018-01-01',

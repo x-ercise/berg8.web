@@ -23,15 +23,15 @@ const columns = [{
 }, {
   title: 'Subject',
   align: 'center',
-  width: '330px',
+  //width: '280px',
   dataIndex: 'SUBJECT',
 }, {
   title: 'Type',
   align: 'center',
-  width: '100px',
+  width: '150px',
   render: (text, record) => (
     <div className="text-left">
-      {record.TYPE}
+      {record.DOC_TYPE}:{record.TRANS_TYPE}
     </div>
   )
 },
@@ -48,10 +48,10 @@ const columns = [{
 {
   title: 'Requestor',
   align: 'center',
-  wdith: '200px',
+  //wdith: '200px',
   render: (text, record) => (
     <div className="text-left">
-      {record.REQUETOR.NAME}
+      {record.REQUESTOR ? record.REQUESTOR.NAME : ""}
     </div>
   ),
 }];
@@ -105,6 +105,7 @@ class ConnectDataTableComponentForm extends Component {
         columns={columns}
         dataSource={this.props.data}
         size={"small"}
+        rowKey ={"CODE"}
         scroll={{ x: 1050 }}
         bordered={true} />
     );
