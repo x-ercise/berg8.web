@@ -1,33 +1,77 @@
 import axios from 'axios';
 
-const url = 'https://berg8apidev.azurewebsites.net/workflow/GetDocuments';
+const url = 'https://berg8apidev.azurewebsites.net';
 const headers = {
-    'Accept' : 'appliction/json',
-    'Content-Type':  'multipart/form-data',
+    'Accept': 'appliction/json',
+    'Content-Type': 'multipart/form-data',
 }
+
+// const dataRequest = {
+//     REFRESH_TOKEN: '',
+//     PROFILE: {
+//         USER_CODE: '',
+//         POSITION_CODE: '',
+//     },
+//     FILTER: {
+//         ACTIVITY_NAME: "WAITING APPROVAL",
+//         REQUEST_TYPE: [], //other
+//         DESCTIPTION: '',
+//         REQUESTOR: '',
+//         PERIOD_EXPENSE: {
+//             BEGIN: '2018-01-01',
+//             END: '9999-12-31'
+//         }
+//     },
+//     SELECTION: [],
+//     ACTION: 'INIT' //ADD, AMEND, APPROVE, REJECT, SND BACK, XLS, PDF
+// }
 
 const dataRequest = {
-    REFRESH_TOKEN: '',
-    PROFILE: {
-        USER_CODE: '',
-        POSITION_CODE: '',
+    REFRESH_TOKEN : '',
+    OPERATOR: {
+        CODE: 'REQUESTOR',
+        NAME: '',
+        EMAIL: '',
+        CONTACT_NO: ''
     },
     FILTER: {
-        ACTIVITY_NAME: "WAITING APPROVAL",
-        REQUEST_TYPE: [], //other
-        DESCTIPTION: '',
+        REQUEST_TYPES : [],
+        CLAIM_TYPES :[],
+        DESCRIPTION: '',
         REQUESTOR: '',
-        PERIOD_EXPENSE: {
-            BEGIN: '2018-01-01',
-            END: '9999-12-31'
-        }
-    },
-    SELECTION: [],
-    ACTION: 'INIT' //ADD, AMEND, APPROVE, REJECT, SND BACK, XLS, PDF
+        PREVIOUS: '',
+        PERIOD_BEGIN: '2018-01-01',
+        PERIOD_END: '9999-12-31'
+
+    }
 }
 
-export const WaitingPageAPI = async (data = dataRequest) => {
-   
-       return await axios
-        .post(url, data, headers)
+
+export const GetDocumentListAPI = async (data = dataRequest) => {
+
+    return await axios
+        .post(url + '/workflow/GetDocuments', data, headers)
+}
+
+export const GetCommandActionAPI = async (params) => {
+    return await axios.post(url + '/workflow/GetCommandActions', {
+        OPERATOR : {
+            CODE : 'REQUESTOR',
+            NAME : 'NONE',
+            EMAIL: 'NONE',
+            CONTACT_NO : 'NONE'
+        }
+    }, headers)
+}
+
+export const GetTaskAPI = async (params) => {
+    return await axios.post(url + '/workflow/GetTasks', {
+        OPERATOR : {
+            CODE : 'REQUESTOR',//'REQUESTOR' , 'APPROVER'
+            NAME : 'NONE',
+            EMAIL: 'NONE',
+            CONTACT_NO : 'NONE'
+        },
+        WIDGET : 'TASK'
+    }, headers)
 }

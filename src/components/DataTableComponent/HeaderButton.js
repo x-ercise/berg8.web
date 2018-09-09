@@ -10,7 +10,7 @@ import {
     OnAfterActionResponseWaitingPage
 } from "../../actions";
 import { mapDataFilterWaitingPage } from '../../helpers/mappingData';
-import { WaitingPageAPI } from "../../services/apiService";
+import { GetDocumentListAPI } from "../../services/apiService";
 
 const confirm = Modal.confirm;
 
@@ -31,7 +31,7 @@ class ConnectHeaderButtonWaitingForm extends Component {
         data.SELECTION = [...this.props.selectedItem];
 
         this.props.SetFlagLoading(true);
-        WaitingPageAPI(data).then(resolve => {
+        GetDocumentListAPI(data).then(resolve => {
 
             this.props.SetFlagLoading(false);
             if (resolve.status === 200) {
@@ -89,20 +89,21 @@ class ConnectHeaderButtonWaitingForm extends Component {
     render() {
         return (<div className="row">
 
-            <div className="col col-sm-6" style={{ paddingBottom: '5px' }}>
-                <Button type="primary" >ADD</Button>
-                {/* <Popconfirm title="Are you sure to approve？" icon={<Icon type="question-circle-o" style={{ color: 'red' }} />} onConfirm={}> */}
-                <Button type="primary" onClick={this.onClickApprove} disabled={this.props.selectedItem.length <= 0}>APPROVE</Button>
-                {/* </Popconfirm> */}
-                {/* <Popconfirm title="Are you sure to reject？" icon={<Icon type="question-circle-o" style={{ color: 'red' }} />} onConfirm={this.onClickReject}> */}
-                <Button type="primary" onClick={this.onClickReject} disabled={this.props.selectedItem.length <= 0}>REJECT</Button>
-                {/* </Popconfirm> */}
-                {/* <Popconfirm title="Are you sure to send back？" icon={<Icon type="question-circle-o" style={{ color: 'red' }} />} onConfirm={this.onClickSendBack}> */}
-                <Button type="primary" onClick={this.onClickSendBack} disabled={this.props.selectedItem.length <= 0}>SEND BACK</Button>
-                {/* </Popconfirm> */}
+            <div className="col col-sm-12 col-md-6 col-lg-6" style={{ paddingBottom: '5px' }}>
+                {/* <Button type="primary" >ADD</Button> */}
+
+                {this.props.butonCommand.map((el, i) => (
+                    <Button type="primary" key={i} className={el.VISIBLED ?'' : 'hide'  } onClick={() => this.onRequest(el.CODE)} disabled={!el.ENABLED || this.props.selectedItem.length <= 0} >{el.TEXT}</Button>
+                ))}
+
+
+                {/* <Button type="primary" onClick={this.onClickApprove} disabled={this.props.selectedItem.length <= 0}>APPROVE</Button>
+                <Button type="red" onClick={this.onClickReject} disabled={this.props.selectedItem.length <= 0}>REJECT</Button>
+                <Button type="info" onClick={this.onClickSendBack} disabled={this.props.selectedItem.length <= 0}>SEND BACK</Button> */}
+
             </div>
 
-            <div className="col col-sm-6 text-right">
+            <div className="col col-sm-12 col-md-6 col-lg-6 text-right">
                 <Button type="primary" disabled={this.props.selectedItem.length <= 0}>XLS</Button>
                 <Button type="primary" disabled={this.props.selectedItem.length <= 0}>PDF</Button>
                 <Button type="primary" disabled={this.props.selectedItem.length <= 0}>PRINT</Button>
@@ -114,7 +115,8 @@ class ConnectHeaderButtonWaitingForm extends Component {
 const mapStateToProps = state => {
     return {
         filter: state.waitingListPage.filter,
-        selectedItem: state.waitingListPage.selected
+        selectedItem: state.waitingListPage.selected,
+        butonCommand: state.waitingListPage.actions
     }
 }
 
