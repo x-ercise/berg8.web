@@ -138,7 +138,7 @@ class ConnectFilterComponentForm extends Component {
 
   render() {
     return (
-      <Card title="Filters" style={{ height: '100%' }} extra={<Button type="primary" onClick={this.onClickFilter}>Filters</Button>} >
+      <Card title={<span style={{color:'#357dff'}}>Filters</span>} style={{ height: '100%' }} extra={<Button type="primary" onClick={this.onClickFilter}>GO</Button>} >
         Request
         <Row >
           <Checkbox value="TRAVEL" onChange={this.toggleCheckboxRequest} >Travel</Checkbox>

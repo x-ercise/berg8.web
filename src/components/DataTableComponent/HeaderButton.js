@@ -40,19 +40,19 @@ class ConnectHeaderButtonWaitingForm extends Component {
                     data: resolve.data.data
                 }
 
-                if (resolve.data.message[0].code === 'Success') {
-                    Modal.success({
-                        title: 'Success',
-                        content: resolve.data.message[0].message
-                    });
-                } else {
-                    pack.clearSelected = false;
+                // if (resolve.data.MESSAGE[0].code === 'Success') {
+                //     Modal.success({
+                //         title: 'Success',
+                //         content: resolve.data.MESSAGE[0].message
+                //     });
+                // } else {
+                 //   pack.clearSelected = false;
                     let text = resolve.data.message.map(e => (e.message)).join('<br/>')
                     Modal.error({
-                        title: 'Error',
+                        title: 'Info',
                         content: text
                     });
-                }
+                //}
 
                 this.props.OnActionRes(pack);
             }

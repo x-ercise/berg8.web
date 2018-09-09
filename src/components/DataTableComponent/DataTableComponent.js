@@ -10,7 +10,7 @@ const columns = [{
   title: 'Doc. ID',
   align: 'center',
   dataIndex: 'CODE',
-  width: '120px'
+  width: '200px'
 }, {
   title: 'Travelling Date',
   align: 'center',
@@ -65,6 +65,7 @@ class ConnectDataTableComponentForm extends Component {
     super();
 
     this.onSelectChange = this.onSelectChange.bind(this);
+    this.onTableChange = this.onTableChange.bind(this);
     // this.rowSelection = {
     //   onChange: this.onSelect
     // };
@@ -79,6 +80,11 @@ class ConnectDataTableComponentForm extends Component {
   onSelectChange(selectedRowKeys) {
     this.setState({ selectedRowKeys });
     this.props.OnUpdateSelected(selectedRowKeys);
+  }
+
+  onTableChange(pagination, filters, sorter){
+   // this.setState({ selectedRowKeys });
+    this.props.OnUpdateSelected([]);
   }
 
   start = () => {
@@ -107,6 +113,7 @@ class ConnectDataTableComponentForm extends Component {
         size={"small"}
         rowKey ={"CODE"}
         scroll={{ x: 1050 }}
+        onChange={this.onTableChange}
         bordered={true} />
     );
   }
