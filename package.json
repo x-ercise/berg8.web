@@ -21,13 +21,8 @@
     "react-scripts": "1.1.4",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.5",
-<<<<<<< HEAD
-    "redux-thunk": "^2.3.0",
-    "source-map-explorer": "^1.6.0"
-=======
     "redux-saga": "^0.16.0",
     "redux-thunk": "^2.3.0"
->>>>>>> be9369c137e990d0fa966849d4ad48b464d0d25f
   },
   "scripts": {
     "start": "react-app-rewired start",
