@@ -7,42 +7,51 @@ import moment from 'moment';
 import { Row, Col } from 'antd';
 
 const columns = [{
-  title: 'DOCUMENT NO',
-  align : 'center',  
-  dataIndex: 'documentNo',
-  // render: text => <a href="javascript:;">{text}</a>,
+  title: 'Doc. ID',
+  align: 'center',
+  dataIndex: 'CODE',
+  width: '120px'
 }, {
-  title: 'TRAVELLING ON',
-  align : 'center',  
+  title: 'Travelling Date',
+  align: 'center',
+  width: '200px',
   render: (text, record) => (
     <span>
-      {moment(record.plan.begin,'YYYY-MM-DD').format('DD/MM/YYYY')} - {moment(record.plan.end,'YYYY-MM-DD').format('DD/MM/YYYY')}
+      {moment(record.PLAN_BEGIN, 'YYYY-MM-DD').format('DD/MM/YYYY')} - {moment(record.PLAN_END, 'YYYY-MM-DD').format('DD/MM/YYYY')}
     </span>
-  ),
+  )
 }, {
-  title: 'DESCRIPTION',
-  align : 'center',  
+  title: 'Subject',
+  align: 'center',
+  //width: '280px',
+  dataIndex: 'SUBJECT',
+}, {
+  title: 'Type',
+  align: 'center',
+  width: '150px',
   render: (text, record) => (
-    <div>
-      <Row>
-        <Col span={24} className={'text-left'}>{record.description}</Col>
-      </Row>
-      <Row>
-        <Col span={24} className={'text-right'}> <b>VER.</b> {record.version} <b>REV.</b> {record.revision}</Col>
-      </Row>
+    <div className="text-left">
+      {record.DOC_TYPE}:{record.TRANS_TYPE}
     </div>
-  ),
-}, {
-  title: 'REQUESTOR',
-  align : 'center',  
+  )
+},
+{
+  title: 'Status',
+  align: 'center',
+  width: '100px',
   render: (text, record) => (
-    <div>
-      <Row>
-        <Col span={24} className={'text-left'}><b>{record.requestor.name}</b></Col>
-      </Row>
-      <Row>
-        <Col span={24} className={'text-right'}> <b>M :</b> {record.requestor.mobile} <b>Last Action</b> {moment(record.requestor.actionOn,'YYYY-MM-DD').format('DD/MM/YYYY') }</Col>
-      </Row>
+    <div className="text-left">
+      {record.STATUS}
+    </div>
+  )
+},
+{
+  title: 'Requestor',
+  align: 'center',
+  //wdith: '200px',
+  render: (text, record) => (
+    <div className="text-left">
+      {record.REQUESTOR ? record.REQUESTOR.NAME : ""}
     </div>
   ),
 }];
@@ -61,7 +70,7 @@ class ConnectDataTableComponentForm extends Component {
     // };
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     this.setState({
       selectedRowKeys: nextProps.selectedItem, // Check here to configure the default column
     })
@@ -76,7 +85,7 @@ class ConnectDataTableComponentForm extends Component {
     this.setState({ loading: true });
     // ajax request after empty completing
     setTimeout(() => {
-      
+
       this.setState({
         selectedRowKeys: [],
         loading: false,
@@ -92,12 +101,13 @@ class ConnectDataTableComponentForm extends Component {
       onChange: this.onSelectChange,
     };
     return (
-        <Table rowSelection={rowSelection} 
-        columns={columns} 
-        dataSource={this.props.data} 
+      <Table rowSelection={rowSelection}
+        columns={columns}
+        dataSource={this.props.data}
         size={"small"}
-        scroll={{ x:930 }}
-        bordered = {true}/>
+        rowKey ={"CODE"}
+        scroll={{ x: 1050 }}
+        bordered={true} />
     );
   }
 }
