@@ -55,3 +55,17 @@ export const GetTaskAPI = async (params) => {
         WIDGET : 'TASK'
     }, headers)
 }
+
+export const OperateActionAPI = async (action) => {
+    return await axios.post(window.encodeURI(url + '/workflow/OperateAction'),JSON.stringify( {
+        OPERATOR : {
+            CODE : 'REQUESTOR',//'REQUESTOR' , 'APPROVER'
+            NAME : 'NONE',
+            EMAIL: 'NONE',
+            CONTACT_NO : 'NONE'
+        },
+        SELECTION : action.Selection,
+        ACTION_CODE : action.Code
+    }), headers)
+}
+

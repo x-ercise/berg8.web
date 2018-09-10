@@ -10,7 +10,7 @@ import {
     OnAfterActionResponseWaitingPage
 } from "../../actions";
 import { mapDataFilterWaitingPage } from '../../helpers/mappingData';
-import { GetDocumentListAPI } from "../../services/apiService";
+import { OperateActionAPI } from "../../services/apiService";
 
 const confirm = Modal.confirm;
 
@@ -27,33 +27,34 @@ class ConnectHeaderButtonWaitingForm extends Component {
     onRequest = (action) => {
         let filter = { ...this.props.filter, Action: action };
         this.props.OnClickAction(filter);
-        let data = mapDataFilterWaitingPage(filter);
-        data.SELECTION = [...this.props.selectedItem];
-
-switch (action) {
-    case "AMEND":
-        if(data.SELECTION.length != 1)
-        {
-            Modal.warning({
-                title: 'Warning',
-                content: 'You selected more than 1 item.'
-            });
-            return;
+        let data ={
+            Selection :[...this.props.selectedItem],
+            Code : action
         }
-        break;
 
-    default:
-        break;
-}
+        switch (action) {
+            case "AMEND":
+                if (data.SELECTION.length != 1) {
+                    Modal.warning({
+                        title: 'Warning',
+                        content: 'You selected more than 1 item.'
+                    });
+                    return;
+                }
+                break;
+
+            default:
+                break;
+        }
 
         this.props.SetFlagLoading(true);
-        GetDocumentListAPI(data).then(resolve => {
+        OperateActionAPI(data).then(resolve => {
 
             this.props.SetFlagLoading(false);
             if (resolve.status === 200) {
                 let pack = {
                     clearSelected: true,
-                    data: resolve.data.data
+                 
                 }
 
                 // if (resolve.data.MESSAGE[0].code === 'Success') {
@@ -62,12 +63,12 @@ switch (action) {
                 //         content: resolve.data.MESSAGE[0].message
                 //     });
                 // } else {
-                 //   pack.clearSelected = false;
-                    let text = resolve.data.message.map(e => (e.message)).join('<br/>')
-                    Modal.info({
-                        title: 'Info',
-                        content: text
-                    });
+                //   pack.clearSelected = false;
+                let text = resolve.data.message.map(e => (e.message)).join('<br/>')
+                Modal.info({
+                    title: 'Info',
+                    content: text
+                });
                 //}
 
                 this.props.OnActionRes(pack);
@@ -109,7 +110,7 @@ switch (action) {
                 {/* <Button type="primary" >ADD</Button> */}
 
                 {this.props.butonCommand.map((el, i) => (
-                    <Button type="primary" key={i} className={el.VISIBLED ?'' : 'hide'  } onClick={() => this.onRequest(el.CODE)} disabled={!el.ENABLED || this.props.selectedItem.length <= 0} >{el.TEXT}</Button>
+                    <Button type="primary" key={i} className={el.VISIBLED ? '' : 'hide'} onClick={() => this.onRequest(el.CODE)} disabled={!el.ENABLED || this.props.selectedItem.length <= 0} >{el.TEXT}</Button>
                 ))}
 
 

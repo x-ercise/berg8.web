@@ -12,10 +12,11 @@ import { connect } from "react-redux";
 import {
     SetFlagLoading,
     SetDataTableWaitingPage,
-    OnRequestCommandWaitingPage,
     OnRequestTaskWaitingPage,
-    SetListSelectRecordWaitingPage
+    SetListSelectRecordWaitingPage,
+    ActioButtonWaitingPageRequest
 } from "../../actions";
+import { promises } from 'fs';
 
 //  
 //
@@ -36,52 +37,66 @@ class WaitingPageTemp extends Component {
 
 
     componentDidMount() {
-        this.props.SetFlagLoading(true);
+
         this.props.SetSelection([]);
         let data = mapDataFilterWaitingPage(this.props.filter);
-        GetDocumentListAPI(data)
-            .then(resolve => {
-                // this.props.SetFlagLoading(false);
-                if (resolve.status === 200) {
-                    this.props.SetData(resolve.data.DOCUMENTS);
-
-                }
-                else throw resolve;
-            })
-            .catch(error => { this.props.SetFlagLoading(false); }
-            );
-
-        GetCommandActionAPI().then(resolve => {
-            //  this.props.SetFlagLoading(false);
-            if (resolve.status === 200) {
-
-                this.props.SetCommand(resolve.data.ACTIONS);
-
-                GetTaskAPI().then(resolve => {
-                    this.props.SetFlagLoading(false);
-                    if (resolve.status === 200) {
-                        if (resolve.data.TASKS) {
-                            this.props.SetMyTask(resolve.data.TASKS);
-                        } else {
-                            const checkOptions = [
-                                { STATUS: 'ไม่มี TASKS มาจาก API', COUNT: '5' },
-                            ];
-                            this.props.SetMyTask(checkOptions);
-                        }
-                    }
-                    else throw resolve;
-                }).catch(error => {
-                    this.props.SetFlagLoading(false);
-                    const checkOptions = [
-                        { STATUS: 'Waiting for Approval', COUNT: '5' },
-                        { STATUS: 'Waiting for Accountant Review', COUNT: '11' },
-                        { STATUS: 'Waiting for Payment', COUNT: '6' },
-                        { STATUS: 'Returned', COUNT: '7' }];
-                    this.props.SetMyTask(checkOptions);
-                });
+        let commandObj = {
+            OPERATOR: {
+                CODE: 'REQUESTOR',
+                NAME: 'NONE',
+                EMAIL: 'NONE',
+                CONTACT_NO: 'NONE'
             }
-            else throw resolve;
-        }).catch(error => { this.props.SetFlagLoading(false); });
+        }
+        // GetDocumentListAPI(data)
+        //     .then(resolve => {
+        //         // this.props.SetFlagLoading(false);
+        //         if (resolve.status === 200) {
+        //             this.props.SetData(resolve.data.DOCUMENTS);
+
+        //         }
+        //         else throw resolve;
+        //     })
+        //     .catch(error => { this.props.SetFlagLoading(false); }
+        //     );
+        Promise.all([this.props.SetFlagLoading(true),
+            this.props.initCommand(commandObj)
+        ]).then(()=>{
+            this.props.SetFlagLoading(false);
+        })
+       
+
+        // GetCommandActionAPI().then(resolve => {
+        //     //  this.props.SetFlagLoading(false);
+        //     if (resolve.status === 200) {
+
+        //         this.props.SetCommand(resolve.data.ACTIONS);
+
+        //         GetTaskAPI().then(resolve => {
+        //             this.props.SetFlagLoading(false);
+        //             if (resolve.status === 200) {
+        //                 if (resolve.data.TASKS) {
+        //                     this.props.SetMyTask(resolve.data.TASKS);
+        //                 } else {
+        //                     const checkOptions = [
+        //                         { STATUS: 'ไม่มี TASKS มาจาก API', COUNT: '5' },
+        //                     ];
+        //                     this.props.SetMyTask(checkOptions);
+        //                 }
+        //             }
+        //             else throw resolve;
+        //         }).catch(error => {
+        //             this.props.SetFlagLoading(false);
+        //             const checkOptions = [
+        //                 { STATUS: 'Waiting for Approval', COUNT: '5' },
+        //                 { STATUS: 'Waiting for Accountant Review', COUNT: '11' },
+        //                 { STATUS: 'Waiting for Payment', COUNT: '6' },
+        //                 { STATUS: 'Returned', COUNT: '7' }];
+        //             this.props.SetMyTask(checkOptions);
+        //         });
+        //     }
+        //     else throw resolve;
+        // }).catch(error => { this.props.SetFlagLoading(false); });
 
     }
 
@@ -124,9 +139,10 @@ const mapDispatchToProps = dispatch => {
     return {
         SetFlagLoading: flag => dispatch(SetFlagLoading(flag)),
         SetData: data => dispatch(SetDataTableWaitingPage(data)),
-        SetCommand: actions => dispatch(OnRequestCommandWaitingPage(actions)),
+        //  SetCommand: actions => dispatch(OnRequestCommandWaitingPage(actions)),
         SetMyTask: data => dispatch(OnRequestTaskWaitingPage(data)),
-        SetSelection: data => dispatch(SetListSelectRecordWaitingPage(data))
+        SetSelection: data => dispatch(SetListSelectRecordWaitingPage(data)),
+        initCommand: data => dispatch(ActioButtonWaitingPageRequest(data)),
     };
 };
 
