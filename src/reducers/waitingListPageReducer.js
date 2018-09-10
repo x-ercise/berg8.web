@@ -29,19 +29,12 @@ const networkError = () => {
 
 const waitingListPageReducer = (state = defaultState, action) => {
     switch (action.type) {
-        case ActType.INI_FILTER_WAITING_PAGE: {
-            return { ...state, filter: { ...action.payload } };
-        }
-        case ActType.INIT_DATA_WAITING_PAGE:
-            return { ...state, data: action.data };
         case ActType.SET_SELECTED_LIST_WAITING_PAGE:
             return { ...state, ...{ selected: action.selected } };
         case ActType.ON_FILTER_WAITING_PAGE:
             return { ...state, ...{ filter: { ...action.payload }, selected: [] } };
         case ActType.ON_CRITERIA_CHANGE_WAITING_PAGE:
             return { ...state, filter: { ...action.payload } };
-        case ActType.ON_SET_DATE_TABLE_WAITING_PAGE:
-            return { ...state, data: action.data };
         case ActType.ON_CLICK_BUTTON_WAITING_PAGE:
             return { ...state, filter: { ...action.payload } };
         case ActType.ON_ACTION_RESPONSE_WAITING_PAGE:
@@ -59,6 +52,12 @@ const waitingListPageReducer = (state = defaultState, action) => {
         case ActType.API_TASK_WAITING_PAGE_FAIL:
             networkError()
             return { ...state };
+        case ActType.API_DOCUMENTS_WAITTING_PAGE_SUCCESS:
+            return { ...state, ...{ data: action.payload.data.DOCUMENTS, selected: [] } };
+        case ActType.API_DOCUMENTS_WAITTING_PAGE_FAIL:
+            networkError()
+            return { ...state };
+
         default:
             return state;
     }

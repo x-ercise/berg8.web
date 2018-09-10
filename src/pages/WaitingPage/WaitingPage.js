@@ -7,24 +7,17 @@ import PropTypes from 'prop-types';
 import DataTableComponent from '../../components/DataTableComponent/DataTableComponent';
 import HeaderButtonWaiting from '../../components/DataTableComponent/HeaderButton';
 import { mapDataFilterWaitingPage } from '../../helpers/mappingData'
-import { GetDocumentListAPI, GetCommandActionAPI, GetTaskAPI } from "../../services/apiService";
 import { connect } from "react-redux";
 import {
     SetFlagLoading,
-    SetDataTableWaitingPage,
     GetTaskWaitingPage,
     SetListSelectRecordWaitingPage,
-    GetActionButtonWaitingPage
+    GetActionButtonWaitingPage,
+    GetDocumentWaitingPage
 } from "../../actions";
-import { promises } from 'fs';
 
-//  
-//
+
 class WaitingPageTemp extends Component {
-    // state = {
-    //     visible: false,
-    //     iconName: 'menu-unfold'
-    // };
 
     state = {
         collapsed: false,
@@ -35,11 +28,10 @@ class WaitingPageTemp extends Component {
         this.setState({ collapsed });
     }
 
-
     componentDidMount() {
 
         this.props.SetSelection([]);
-        let data = mapDataFilterWaitingPage(this.props.filter);
+        let filterobj = mapDataFilterWaitingPage(this.props.filter);
         let commandObj = {
             OPERATOR: {
                 CODE: 'REQUESTOR',
@@ -50,65 +42,22 @@ class WaitingPageTemp extends Component {
         }
 
         let taskObj = {
-            OPERATOR : {
-                CODE : 'REQUESTOR',//'REQUESTOR' , 'APPROVER'
-                NAME : 'NONE',
+            OPERATOR: {
+                CODE: 'REQUESTOR',//'REQUESTOR' , 'APPROVER'
+                NAME: 'NONE',
                 EMAIL: 'NONE',
-                CONTACT_NO : 'NONE'
+                CONTACT_NO: 'NONE'
             },
-            WIDGET : 'TASK'
+            WIDGET: 'TASK'
         }
-        // GetDocumentListAPI(data)
-        //     .then(resolve => {
-        //         // this.props.SetFlagLoading(false);
-        //         if (resolve.status === 200) {
-        //             this.props.SetData(resolve.data.DOCUMENTS);
-
-        //         }
-        //         else throw resolve;
-        //     })
-        //     .catch(error => { this.props.SetFlagLoading(false); }
-        //     );
+        
         Promise.all([this.props.SetFlagLoading(true),
-            this.props.initCommand(commandObj),
-            this.props.initTask(taskObj)
-        ]).then(()=>{
+        this.props.initCommand(commandObj),
+        this.props.initTask(taskObj),
+        this.props.initDocs(filterobj)
+        ]).then(() => {
             this.props.SetFlagLoading(false);
         })
-       
-
-        // GetCommandActionAPI().then(resolve => {
-        //     //  this.props.SetFlagLoading(false);
-        //     if (resolve.status === 200) {
-
-        //         this.props.SetCommand(resolve.data.ACTIONS);
-
-        //         GetTaskAPI().then(resolve => {
-        //             this.props.SetFlagLoading(false);
-        //             if (resolve.status === 200) {
-        //                 if (resolve.data.TASKS) {
-        //                     this.props.SetMyTask(resolve.data.TASKS);
-        //                 } else {
-        //                     const checkOptions = [
-        //                         { STATUS: 'ไม่มี TASKS มาจาก API', COUNT: '5' },
-        //                     ];
-        //                     this.props.SetMyTask(checkOptions);
-        //                 }
-        //             }
-        //             else throw resolve;
-        //         }).catch(error => {
-        //             this.props.SetFlagLoading(false);
-        //             const checkOptions = [
-        //                 { STATUS: 'Waiting for Approval', COUNT: '5' },
-        //                 { STATUS: 'Waiting for Accountant Review', COUNT: '11' },
-        //                 { STATUS: 'Waiting for Payment', COUNT: '6' },
-        //                 { STATUS: 'Returned', COUNT: '7' }];
-        //             this.props.SetMyTask(checkOptions);
-        //         });
-        //     }
-        //     else throw resolve;
-        // }).catch(error => { this.props.SetFlagLoading(false); });
-
     }
 
     showDrawer = () => {
@@ -143,8 +92,8 @@ class WaitingPageTemp extends Component {
 
 WaitingPageTemp.propTypes = {
     filter: PropTypes.object.isRequired
-  }
-  
+}
+
 
 const mapStateToProps = state => {
     return {
@@ -155,11 +104,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         SetFlagLoading: flag => dispatch(SetFlagLoading(flag)),
-        SetData: data => dispatch(SetDataTableWaitingPage(data)),
-        //  SetCommand: actions => dispatch(OnRequestCommandWaitingPage(actions)),
         initTask: data => dispatch(GetTaskWaitingPage(data)),
         SetSelection: data => dispatch(SetListSelectRecordWaitingPage(data)),
         initCommand: data => dispatch(GetActionButtonWaitingPage(data)),
+        initDocs: data => dispatch(GetDocumentWaitingPage(data))
     };
 };
 

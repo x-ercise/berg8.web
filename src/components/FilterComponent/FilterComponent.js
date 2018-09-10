@@ -5,15 +5,14 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import {
-  OnFilterWaitingPage,
   OnCriteriaChangeWaitingPage,
-  IniFilterWaitingPage,
   SetFlagLoading,
-  SetDataTableWaitingPage,
-  OnInitDataTalbeWaitingPage
+  OnFilterWaitingPage,
+  GetDocumentWaitingPage
 } from "../../actions";
 import { GetDocumentListAPI } from "../../services/apiService";
 import { mapDataFilterWaitingPage } from '../../helpers/mappingData';
+import { promises } from 'fs';
 
 const dateFormat = 'DD/MM/YYYY';
 
@@ -116,20 +115,13 @@ class ConnectFilterComponentForm extends Component {
   onClickFilter = () => {
     let model = { ...this.props.filter, Action: 'INIT' };
     this.props.OnClickFilter(model);
-    this.props.SetFlagLoading(true);
+
     let data = mapDataFilterWaitingPage(model);
 
-    GetDocumentListAPI(data)
-      .then(resolve => {
-        this.props.SetFlagLoading(false);
-        if (resolve.status === 200) {
-          this.props.SetData(resolve.data.DOCUMENTS);
-        }
-        else throw resolve;
+    Promise.all([this.props.SetFlagLoading(true), this.props.SetData(data)])
+      .then(() => {
+        this.props.SetFlagLoading(false)
       })
-      .catch(error => { this.props.SetFlagLoading(false); }
-      );
-
   }
 
   render() {
@@ -194,9 +186,7 @@ const mapDispatchToProps = dispatch => {
     SetFlagLoading: flag => dispatch(SetFlagLoading(flag)),
     OnClickFilter: filters => dispatch(OnFilterWaitingPage(filters)),
     OnCriteriaChange: filters => dispatch(OnCriteriaChangeWaitingPage(filters)),
-    InitFilter: filters => dispatch(IniFilterWaitingPage(filters)),
-    SetData: data => dispatch(SetDataTableWaitingPage(data)),
-    OnInitData: data => dispatch(OnInitDataTalbeWaitingPage(data)),
+    SetData: data => dispatch(GetDocumentWaitingPage(data)),
   };
 };
 
