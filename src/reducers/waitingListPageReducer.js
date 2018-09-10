@@ -20,10 +20,9 @@ const defaultState = {
         ClaimType:[],
         Description: '',
         Requestor: '',
-        FromDate: '',
         ExpensePeriod: {
-            Begin: '',
-            End: ''
+            Begin: null,
+            End: null
         },
         Action: ''
     },

@@ -15,8 +15,8 @@ export const mapDataFilterWaitingPage = (filter) => {
             DESCRIPTION: filter.Description,
             REQUESTOR: filter.Requestor,
             PREVIOUS:'',
-            PERIOD_BEGIN: filter.ExpensePeriod.Begin ? moment(filter.ExpensePeriod.Begin, 'DD/MM/YYYY').format('YYYY-MM-DD') : '2018-01-01',
-            PERIOD_END: filter.ExpensePeriod.End ? moment(filter.ExpensePeriod.End, 'DD/MM/YYYY').format('YYYY-MM-DD') : '9999-12-31'
+            PERIOD_BEGIN: filter.ExpensePeriod.Begin ? (filter.ExpensePeriod.Begin).format('YYYY-MM-DD') : '2018-01-01',
+            PERIOD_END: filter.ExpensePeriod.End ? (filter.ExpensePeriod.End).format('YYYY-MM-DD') : '9999-12-31'
 
         }
     }

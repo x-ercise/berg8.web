@@ -85,19 +85,20 @@ class ConnectFilterComponentForm extends Component {
   }
 
   handleFromDateChange(event) {
-    let strDate = event == null || !event.isValid() ? '' : event.format('DD/MM/YYYY');
+    //let strDate = event == null || !event.isValid() ? '' : event.format('DD/MM/YYYY');
     let model = { ...this.props.filter };
-    model.ExpensePeriod.Begin = strDate;
-    this.setState({ startDate: strDate === '' ? null : event })
+    model.ExpensePeriod.Begin = event;
+    this.setState({ startDate: event })
     this.props.OnCriteriaChange(model);
   }
 
   handleToDateChange(event) {
-    let endDate = event == null || !event.isValid() ? '' : event.format('DD/MM/YYYY');
+    //let endDate = event == null || !event.isValid() ? '' : event.format('DD/MM/YYYY');
     let model = { ...this.props.filter };
 
-    model.ExpensePeriod.End = endDate;
-    this.setState({ endDate: endDate === '' ? null : event })
+   // model.ExpensePeriod.End = endDate;
+    model.ExpensePeriod.End = event;
+    this.setState({ endDate: event })
     this.props.OnCriteriaChange(model);
   }
 
@@ -138,28 +139,28 @@ class ConnectFilterComponentForm extends Component {
 
   render() {
     return (
-      <Card title={<span style={{color:'#357dff'}}>Filters</span>} style={{ height: '100%' }} extra={<Button type="primary" onClick={this.onClickFilter}>GO</Button>} >
+      <Card style={{ height: '100%' }} >
         Request
         <Row >
-          <Checkbox value="TRAVEL" onChange={this.toggleCheckboxRequest} >Travel</Checkbox>
+        &nbsp; &nbsp;  <Checkbox value="TRAVEL" onChange={this.toggleCheckboxRequest} checked={ this.props.filter.RequestType.some((el)=>{ return el==="TRAVEL"}) }>Travel</Checkbox>
         </Row>
         <Row>
-          <Checkbox value="OTHER" onChange={this.toggleCheckboxRequest} >Others</Checkbox>
+        &nbsp; &nbsp; <Checkbox value="OTHER" onChange={this.toggleCheckboxRequest} checked={ this.props.filter.RequestType.some((el)=>{ return el==="OTHER"}) }>Others</Checkbox>
         </Row>
         Claim
         <Row >
-          <Checkbox value="TRAVEL" onChange={this.toggleCheckboxClaim} >Travel</Checkbox>
+        &nbsp; &nbsp; <Checkbox value="TRAVEL" onChange={this.toggleCheckboxClaim} checked={ this.props.filter.ClaimType.some((el)=>{ return el==="TRAVEL"}) }>Travel</Checkbox>
         </Row>
         <Row>
-          <Checkbox value="OTHER" onChange={this.toggleCheckboxClaim} >Others</Checkbox>
+        &nbsp; &nbsp; <Checkbox value="OTHER" onChange={this.toggleCheckboxClaim} checked={ this.props.filter.ClaimType.some((el)=>{ return el==="OTHER"}) }>Others</Checkbox>
         </Row>
         <hr />
         <Row style={{ marginBottom: '5px' }}>
 
-          <Input placeholder="DESCRIPTION" onChange={this.handleDescriptionChange} />
+          <Input placeholder="DESCRIPTION" onChange={this.handleDescriptionChange} value={this.props.filter.Description} />
         </Row>
         <Row>
-          <Input placeholder="REQUESTOR" onChange={this.handleRequestorChange} />
+          <Input placeholder="REQUESTOR" onChange={this.handleRequestorChange} value={this.props.filter.Requestor} />
         </Row>
         <hr />
         PERIOD TO SPEND
@@ -167,15 +168,17 @@ class ConnectFilterComponentForm extends Component {
           <DatePicker placeholder="FROM DATE" style={{ width: "100%" }}
             disabledDate={this.disabledStartDate}
             format={dateFormat}
-            value={this.state.startDate}
+            value={this.props.filter.ExpensePeriod.Begin}
             onChange={this.handleFromDateChange} />
         </Row>
         <Row>
           <DatePicker placeholder="TO DATE" format={dateFormat} style={{ width: "100%" }}
             disabledDate={this.disabledEndDate}
-            value={this.state.endDate}
+            value={this.props.filter.ExpensePeriod.End}
             onChange={this.handleToDateChange} />
         </Row>
+        <br />
+        <Row><Button type="primary" onClick={this.onClickFilter} style={{width:'100%' }}>GO</Button></Row>
       </Card>
     );
   }

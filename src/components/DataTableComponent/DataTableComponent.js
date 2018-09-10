@@ -4,7 +4,6 @@ import { Table } from 'antd';
 import { connect } from "react-redux";
 import { SetListSelectRecordWaitingPage } from "../../actions";
 import moment from 'moment';
-import { Row, Col } from 'antd';
 
 const columns = [{
   title: 'Doc. ID',

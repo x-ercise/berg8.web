@@ -30,6 +30,22 @@ class ConnectHeaderButtonWaitingForm extends Component {
         let data = mapDataFilterWaitingPage(filter);
         data.SELECTION = [...this.props.selectedItem];
 
+switch (action) {
+    case "AMEND":
+        if(data.SELECTION.length != 1)
+        {
+            Modal.warning({
+                title: 'Warning',
+                content: 'You selected more than 1 item.'
+            });
+            return;
+        }
+        break;
+
+    default:
+        break;
+}
+
         this.props.SetFlagLoading(true);
         GetDocumentListAPI(data).then(resolve => {
 
@@ -48,7 +64,7 @@ class ConnectHeaderButtonWaitingForm extends Component {
                 // } else {
                  //   pack.clearSelected = false;
                     let text = resolve.data.message.map(e => (e.message)).join('<br/>')
-                    Modal.error({
+                    Modal.info({
                         title: 'Info',
                         content: text
                     });
