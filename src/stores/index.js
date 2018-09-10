@@ -7,7 +7,8 @@ import axiosMiddleware from 'redux-axios-middleware';
 
 const client = axios.create({ //all axios can be used, shown in axios documentation
     baseURL: 'https://berg8apidev.azurewebsites.net',
-    responseType: 'json'
+    responseType: 'json',
+    // headers : {'Content-Type': 'multipart/form-data' , 'Access-Control-Allow-Origin'  : '*'},
 });
 
 

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Button } from 'antd';
-import { Modal } from 'antd';
-import { ActionRequest } from '../../constants/action-types';
+import { Button,Modal } from 'antd';
 import { connect } from "react-redux";
 import {
     SetFlagLoading,
@@ -17,10 +15,6 @@ const confirm = Modal.confirm;
 class ConnectHeaderButtonWaitingForm extends Component {
     constructor() {
         super();
-
-        this.onClickApprove = this.onClickApprove.bind(this);
-        this.onClickReject = this.onClickReject.bind(this);
-        this.onClickSendBack = this.onClickSendBack.bind(this);
         this.onRequest = this.onRequest.bind(this);
     }
 
@@ -76,31 +70,6 @@ class ConnectHeaderButtonWaitingForm extends Component {
             else throw resolve;
         })
             .catch(error => { this.props.SetFlagLoading(false); });
-    }
-
-    onClickApprove = () => {
-        this.onRequest(ActionRequest.Approve);
-    }
-
-    onClickReject = () => {
-        let callFuntion = this.onRequest;
-        confirm({
-            title: 'Are you sure to reject?',
-            //  content: 'Some descriptions',
-            okText: 'Yes',
-            okType: 'danger',
-            cancelText: 'No',
-            onOk() {
-                callFuntion(ActionRequest.Reject);
-            },
-            onCancel() {
-
-            },
-        });
-    }
-
-    onClickSendBack = () => {
-        this.onRequest(ActionRequest.SendBack);
     }
 
     render() {

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import 'antd/dist/antd.css';
 import WaitingPage from './pages/WaitingPage/WaitingPage';
 import WaitingPageSideBar from './pages/WaitingPage/WaitingPageSideBar';
-import { Spin } from 'antd';
 import { connect } from "react-redux";
-import { Layout, Menu } from 'antd';
+import { Layout, Menu ,Spin} from 'antd';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 const { Header, Footer, Sider, Content } = Layout;

@@ -1,4 +1,5 @@
 import * as ActType from "../constants/waiting-page-types";
+import { Modal } from 'antd';
 
 const defaultState = {
     data: [],
@@ -6,7 +7,7 @@ const defaultState = {
     filter: {
         Status: "WAITING APPROVAL",
         RequestType: [],
-        ClaimType:[],
+        ClaimType: [],
         Description: '',
         Requestor: '',
         ExpensePeriod: {
@@ -16,8 +17,15 @@ const defaultState = {
         Action: ''
     },
     actions: [],
-    myTasks : [],
+    myTasks: [],
 };
+
+const networkError = () => {
+    Modal.error({
+        title: "Error",
+        content: 'Error occur while sending reqeust!!'
+    })
+}
 
 const waitingListPageReducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -27,7 +35,7 @@ const waitingListPageReducer = (state = defaultState, action) => {
         case ActType.INIT_DATA_WAITING_PAGE:
             return { ...state, data: action.data };
         case ActType.SET_SELECTED_LIST_WAITING_PAGE:
-            return {...state, ...{ selected: action.selected}};
+            return { ...state, ...{ selected: action.selected } };
         case ActType.ON_FILTER_WAITING_PAGE:
             return { ...state, ...{ filter: { ...action.payload }, selected: [] } };
         case ActType.ON_CRITERIA_CHANGE_WAITING_PAGE:
@@ -41,13 +49,16 @@ const waitingListPageReducer = (state = defaultState, action) => {
                 return { ...state, ...{ data: action.data, selected: [] } };
             }
             return state;
-        case ActType.API_REQUEST_COMMAND_WAITING_PAGE:
-            return {...state, actions : action.actions};
-        case ActType.API_BUTTON_WAITING_PAGE_SUCCESS :
-        console.log()
-            return {...state, actions : action.payload.data.ACTIONS};
-        case ActType.API_REQUEST_TASK_WAITING_PAGE :
-            return {...state,myTasks : action.data};
+        case ActType.API_BUTTON_WAITING_PAGE_SUCCESS:
+            return { ...state, actions: action.payload.data.ACTIONS };
+        case ActType.API_BUTTON_WAITING_PAGE_FAIL:
+            networkError()
+            return { ...state };
+        case ActType.API_TASK_WAITING_PAGE_SUCCESS:
+            return { ...state, myTasks: action.payload.data.TASKS };
+        case ActType.API_TASK_WAITING_PAGE_FAIL:
+            networkError()
+            return { ...state };
         default:
             return state;
     }

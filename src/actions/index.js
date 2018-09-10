@@ -7,9 +7,10 @@ import {
     SetDataTableWaitingPage,
     OnClickButtonWaitingPage,
     OnAfterActionResponseWaitingPage,
-    OnRequestCommandWaitingPage,
-    OnRequestTaskWaitingPage,
-    ActioButtonWaitingPageRequest
+  //  OnRequestCommandWaitingPage,
+  //  OnRequestTaskWaitingPage,
+    GetActionButtonWaitingPage,
+    GetTaskWaitingPage
     // OnSendBackResponseWaitingPage,
     // OnRejectResponseWaitingPage,
     // OnApproveResponseWaitingPage
@@ -27,9 +28,8 @@ export {
     OnClickButtonWaitingPage,
     OnAfterActionResponseWaitingPage,
     SetDataTableWaitingPage,
-    OnRequestCommandWaitingPage,
-    OnRequestTaskWaitingPage,
-    ActioButtonWaitingPageRequest,
+    GetActionButtonWaitingPage,
+    GetTaskWaitingPage,
     // Global Action
     SetFlagLoading
 }

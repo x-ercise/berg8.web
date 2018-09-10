@@ -42,23 +42,26 @@ export const OnAfterActionResponseWaitingPage = data => ({
     data: data.data
 });
 
-// export const OnRequestCommandWaitingPage = data => ({
-//     type: action.API_REQUEST_COMMAND_WAITING_PAGE,
-//     actions: data
-// });
-
-export const OnRequestTaskWaitingPage = data => ({
-    type: action.API_REQUEST_TASK_WAITING_PAGE,
-    data
+export const GetTaskWaitingPage = data => ({
+    type: action.API_TASK_WAITING_PAGE_REQUEST,
+    payload: {
+        request: {
+            method: 'POST',
+            url: '/workflow/GetTasks',
+            headers : {'content-type' : 'application/json'},
+            data: JSON.stringify(data)
+        }
+    }
 });
 
-export const ActioButtonWaitingPageRequest = (data) => ({
+export const GetActionButtonWaitingPage = (data) => ({
     type: action.API_BUTTON_WAITING_PAGE_REQUEST,
     payload: {
         request: {
             method: 'POST',
             url: '/workflow/GetCommandActions',
-            data :data
+            headers : {'content-type' : 'application/json'},
+            data: JSON.stringify(data)
         }
     }
 });

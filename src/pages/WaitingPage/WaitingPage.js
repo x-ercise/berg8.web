@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './WaitingPage.css';
-import 'antd/dist/antd.css';
-import { Card } from 'antd';
 
+import { Card } from 'antd';
+import PropTypes from 'prop-types';
 import DataTableComponent from '../../components/DataTableComponent/DataTableComponent';
 import HeaderButtonWaiting from '../../components/DataTableComponent/HeaderButton';
 import { mapDataFilterWaitingPage } from '../../helpers/mappingData'
@@ -12,9 +12,9 @@ import { connect } from "react-redux";
 import {
     SetFlagLoading,
     SetDataTableWaitingPage,
-    OnRequestTaskWaitingPage,
+    GetTaskWaitingPage,
     SetListSelectRecordWaitingPage,
-    ActioButtonWaitingPageRequest
+    GetActionButtonWaitingPage
 } from "../../actions";
 import { promises } from 'fs';
 
@@ -48,6 +48,16 @@ class WaitingPageTemp extends Component {
                 CONTACT_NO: 'NONE'
             }
         }
+
+        let taskObj = {
+            OPERATOR : {
+                CODE : 'REQUESTOR',//'REQUESTOR' , 'APPROVER'
+                NAME : 'NONE',
+                EMAIL: 'NONE',
+                CONTACT_NO : 'NONE'
+            },
+            WIDGET : 'TASK'
+        }
         // GetDocumentListAPI(data)
         //     .then(resolve => {
         //         // this.props.SetFlagLoading(false);
@@ -60,7 +70,8 @@ class WaitingPageTemp extends Component {
         //     .catch(error => { this.props.SetFlagLoading(false); }
         //     );
         Promise.all([this.props.SetFlagLoading(true),
-            this.props.initCommand(commandObj)
+            this.props.initCommand(commandObj),
+            this.props.initTask(taskObj)
         ]).then(()=>{
             this.props.SetFlagLoading(false);
         })
@@ -129,6 +140,12 @@ class WaitingPageTemp extends Component {
     }
 }
 
+
+WaitingPageTemp.propTypes = {
+    filter: PropTypes.object.isRequired
+  }
+  
+
 const mapStateToProps = state => {
     return {
         filter: state.waitingListPage.filter
@@ -140,9 +157,9 @@ const mapDispatchToProps = dispatch => {
         SetFlagLoading: flag => dispatch(SetFlagLoading(flag)),
         SetData: data => dispatch(SetDataTableWaitingPage(data)),
         //  SetCommand: actions => dispatch(OnRequestCommandWaitingPage(actions)),
-        SetMyTask: data => dispatch(OnRequestTaskWaitingPage(data)),
+        initTask: data => dispatch(GetTaskWaitingPage(data)),
         SetSelection: data => dispatch(SetListSelectRecordWaitingPage(data)),
-        initCommand: data => dispatch(ActioButtonWaitingPageRequest(data)),
+        initCommand: data => dispatch(GetActionButtonWaitingPage(data)),
     };
 };
 

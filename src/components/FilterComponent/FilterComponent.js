@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Card } from 'antd';
-import { Button } from 'antd';
-import { Checkbox } from 'antd';
-import { Row } from 'antd';
-import { Input } from 'antd';
-import { DatePicker } from 'antd';
+import { Card, Button, Checkbox, Row, Input, DatePicker } from 'antd';
 import moment from 'moment';
-
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import {
   OnFilterWaitingPage,
@@ -96,7 +91,7 @@ class ConnectFilterComponentForm extends Component {
     //let endDate = event == null || !event.isValid() ? '' : event.format('DD/MM/YYYY');
     let model = { ...this.props.filter };
 
-   // model.ExpensePeriod.End = endDate;
+    // model.ExpensePeriod.End = endDate;
     model.ExpensePeriod.End = event;
     this.setState({ endDate: event })
     this.props.OnCriteriaChange(model);
@@ -142,17 +137,17 @@ class ConnectFilterComponentForm extends Component {
       <Card style={{ height: '100%' }} >
         Request
         <Row >
-        &nbsp; &nbsp;  <Checkbox value="TRAVEL" onChange={this.toggleCheckboxRequest} checked={ this.props.filter.RequestType.some((el)=>{ return el==="TRAVEL"}) }>Travel</Checkbox>
+          &nbsp; &nbsp;  <Checkbox value="TRAVEL" onChange={this.toggleCheckboxRequest} checked={this.props.filter.RequestType.some((el) => { return el === "TRAVEL" })}>Travel</Checkbox>
         </Row>
         <Row>
-        &nbsp; &nbsp; <Checkbox value="OTHER" onChange={this.toggleCheckboxRequest} checked={ this.props.filter.RequestType.some((el)=>{ return el==="OTHER"}) }>Others</Checkbox>
+          &nbsp; &nbsp; <Checkbox value="OTHER" onChange={this.toggleCheckboxRequest} checked={this.props.filter.RequestType.some((el) => { return el === "OTHER" })}>Others</Checkbox>
         </Row>
         Claim
         <Row >
-        &nbsp; &nbsp; <Checkbox value="TRAVEL" onChange={this.toggleCheckboxClaim} checked={ this.props.filter.ClaimType.some((el)=>{ return el==="TRAVEL"}) }>Travel</Checkbox>
+          &nbsp; &nbsp; <Checkbox value="TRAVEL" onChange={this.toggleCheckboxClaim} checked={this.props.filter.ClaimType.some((el) => { return el === "TRAVEL" })}>Travel</Checkbox>
         </Row>
         <Row>
-        &nbsp; &nbsp; <Checkbox value="OTHER" onChange={this.toggleCheckboxClaim} checked={ this.props.filter.ClaimType.some((el)=>{ return el==="OTHER"}) }>Others</Checkbox>
+          &nbsp; &nbsp; <Checkbox value="OTHER" onChange={this.toggleCheckboxClaim} checked={this.props.filter.ClaimType.some((el) => { return el === "OTHER" })}>Others</Checkbox>
         </Row>
         <hr />
         <Row style={{ marginBottom: '5px' }}>
@@ -178,10 +173,14 @@ class ConnectFilterComponentForm extends Component {
             onChange={this.handleToDateChange} />
         </Row>
         <br />
-        <Row><Button type="primary" onClick={this.onClickFilter} style={{width:'100%' }}>GO</Button></Row>
+        <Row><Button type="primary" onClick={this.onClickFilter} style={{ width: '100%' }}>GO</Button></Row>
       </Card>
     );
   }
+}
+
+ConnectFilterComponentForm.propTypes = {
+  filter: PropTypes.object
 }
 
 const mapStateToProps = state => {
