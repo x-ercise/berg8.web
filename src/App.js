@@ -2,12 +2,28 @@ import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import WaitingPage from './pages/WaitingPage/WaitingPage';
 import WaitingPageSideBar from './pages/WaitingPage/WaitingPageSideBar';
+import NewItemPage from './pages/NewItemPage/NewItemPage';
 import { connect } from "react-redux";
-import { Layout, Menu ,Spin} from 'antd';
+import { Layout, Menu, Spin } from 'antd';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 const { Header, Footer, Sider, Content } = Layout;
 
+const routes = [
+  {
+    path: "/ListItemByStatus",
+    exact: true,
+    sidebar: () => <WaitingPageSideBar />,
+    main: () => <WaitingPage />
+  },
+  {
+    path: "/AddItem",
+    exact: true,
+    sidebar: () => <div> Waiting for Implement</div>,
+    main: () => <NewItemPage />
+  },
+  
+];
 
 class AppForm extends Component {
   state = {
@@ -32,7 +48,14 @@ class AppForm extends Component {
               theme="light"
             >
               <div className="logo" />
-              <Route exact path="/ListItemByStatus" component={WaitingPageSideBar} />
+              {routes.map((route, index) => (
+                <Route
+                  key={index}
+                  path={route.path}
+                  exact={route.exact}
+                  component={route.sidebar}
+                />
+              ))}
             </Sider>
             <Layout>
               {/* <Header style={{ background: '#fff', padding: 0 }} /> */}
@@ -45,13 +68,19 @@ class AppForm extends Component {
                   style={{ lineHeight: '64px' }}
                 >
                   <Menu.Item key="1">  <Link to="/ListItemByStatus">Home</Link></Menu.Item>
-                  <Menu.Item key="2">  <Link to="/about">About</Link></Menu.Item>
-                  <Menu.Item key="3"> <Link to="/topics">Topics</Link></Menu.Item>
+                  <Menu.Item key="2">  <Link to="/AddItem">Add </Link></Menu.Item>
+               
                 </Menu>
               </Header>
               <Content style={{ margin: '0 16px' }}>
-                <Route exact path="/ListItemByStatus" component={WaitingPage} />
-
+              {routes.map((route, index) => (
+                <Route
+                  key={index}
+                  path={route.path}
+                  exact={route.exact}
+                  component={route.main}
+                />
+              ))}
               </Content>
 
             </Layout>
