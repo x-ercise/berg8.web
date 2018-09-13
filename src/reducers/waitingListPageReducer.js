@@ -1,15 +1,5 @@
-import {
-    ON_FILTER_WAITING_PAGE,
-    ON_CRITERIA_CHANGE_WAITING_PAGE,
-    INIT_DATA_WAITING_PAGE,
-    SET_SELECTED_LIST_WAITING_PAGE,
-    INI_FILTER_WAITING_PAGE,
-    ON_SET_DATE_TABLE_WAITING_PAGE,
-    ON_CLICK_BUTTON_WAITING_PAGE,
-    ON_ACTION_RESPONSE_WAITING_PAGE,
-    API_REQUEST_COMMAND_WAITING_PAGE,
-    API_REQUEST_TASK_WAITING_PAGE
-} from "../constants/waiting-page-types";
+import * as ActType from "../constants/waiting-page-types";
+import { Modal } from 'antd';
 
 const defaultState = {
     data: [],
@@ -17,54 +7,57 @@ const defaultState = {
     filter: {
         Status: "WAITING APPROVAL",
         RequestType: [],
-        ClaimType:[],
+        ClaimType: [],
         Description: '',
         Requestor: '',
-        FromDate: '',
         ExpensePeriod: {
-            Begin: '',
-            End: ''
+            Begin: null,
+            End: null
         },
         Action: ''
     },
     actions: [],
-    myTasks : [],
+    myTasks: [],
 };
 
-const TransfromData = (data) => {
-    let newList = data.map((e) => ({ key: e.documentNo, ...e }));
-    return newList;
-};
+const networkError = () => {
+    Modal.error({
+        title: "Error",
+        content: 'Error occur while sending reqeust!!'
+    })
+}
 
 const waitingListPageReducer = (state = defaultState, action) => {
     switch (action.type) {
-        case INI_FILTER_WAITING_PAGE: {
-            return { ...state, filter: { ...action.payload } };
-        }
-        case INIT_DATA_WAITING_PAGE:
-            return { ...state, data: TransfromData(action.data) };
-        case SET_SELECTED_LIST_WAITING_PAGE:
-
-            return Object.assign({}, state, {
-                selected: action.selected
-            });
-        case ON_FILTER_WAITING_PAGE:
+        case ActType.SET_SELECTED_LIST_WAITING_PAGE:
+            return { ...state, ...{ selected: action.selected } };
+        case ActType.ON_FILTER_WAITING_PAGE:
             return { ...state, ...{ filter: { ...action.payload }, selected: [] } };
-        case ON_CRITERIA_CHANGE_WAITING_PAGE:
+        case ActType.ON_CRITERIA_CHANGE_WAITING_PAGE:
             return { ...state, filter: { ...action.payload } };
-        case ON_SET_DATE_TABLE_WAITING_PAGE:
-            return { ...state, data: TransfromData(action.data) };
-        case ON_CLICK_BUTTON_WAITING_PAGE:
+        case ActType.ON_CLICK_BUTTON_WAITING_PAGE:
             return { ...state, filter: { ...action.payload } };
-        case ON_ACTION_RESPONSE_WAITING_PAGE:
+        case ActType.ON_ACTION_RESPONSE_WAITING_PAGE:
             if (action.clearSelected) {
-                return { ...state, ...{ data: TransfromData(action.data), selected: [] } };
+                return { ...state, ...{ data: action.data, selected: [] } };
             }
             return state;
-        case API_REQUEST_COMMAND_WAITING_PAGE:
-            return {...state, actions : action.actions};
-        case API_REQUEST_TASK_WAITING_PAGE :
-            return {...state,myTasks : action.data};
+        case ActType.API_BUTTON_WAITING_PAGE_SUCCESS:
+            return { ...state, actions: action.payload.data.ACTIONS };
+        case ActType.API_BUTTON_WAITING_PAGE_FAIL:
+            networkError()
+            return { ...state };
+        case ActType.API_TASK_WAITING_PAGE_SUCCESS:
+            return { ...state, myTasks: action.payload.data.TASKS };
+        case ActType.API_TASK_WAITING_PAGE_FAIL:
+            networkError()
+            return { ...state };
+        case ActType.API_DOCUMENTS_WAITTING_PAGE_SUCCESS:
+            return { ...state, ...{ data: action.payload.data.DOCUMENTS, selected: [] } };
+        case ActType.API_DOCUMENTS_WAITTING_PAGE_FAIL:
+            networkError()
+            return { ...state };
+
         default:
             return state;
     }

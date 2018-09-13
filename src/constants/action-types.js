@@ -4,9 +4,3 @@
 
 export const IS_LOADING = 'TAGGLE_LOADING_ICON';
 
-export const ActionRequest ={
-    Init : "INIT",
-    Approve : "APPROVE",
-    Reject : "REJECT",
-    SendBack : "SNDBACK"
-}

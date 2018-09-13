@@ -6,26 +6,6 @@ const headers = {
     'Content-Type': 'multipart/form-data',
 }
 
-// const dataRequest = {
-//     REFRESH_TOKEN: '',
-//     PROFILE: {
-//         USER_CODE: '',
-//         POSITION_CODE: '',
-//     },
-//     FILTER: {
-//         ACTIVITY_NAME: "WAITING APPROVAL",
-//         REQUEST_TYPE: [], //other
-//         DESCTIPTION: '',
-//         REQUESTOR: '',
-//         PERIOD_EXPENSE: {
-//             BEGIN: '2018-01-01',
-//             END: '9999-12-31'
-//         }
-//     },
-//     SELECTION: [],
-//     ACTION: 'INIT' //ADD, AMEND, APPROVE, REJECT, SND BACK, XLS, PDF
-// }
-
 const dataRequest = {
     REFRESH_TOKEN : '',
     OPERATOR: {
@@ -75,3 +55,17 @@ export const GetTaskAPI = async (params) => {
         WIDGET : 'TASK'
     }, headers)
 }
+
+export const OperateActionAPI = async (action) => {
+    return await axios.post(window.encodeURI(url + '/workflow/OperateAction'),JSON.stringify( {
+        OPERATOR : {
+            CODE : 'REQUESTOR',//'REQUESTOR' , 'APPROVER'
+            NAME : 'NONE',
+            EMAIL: 'NONE',
+            CONTACT_NO : 'NONE'
+        },
+        SELECTION : action.Selection,
+        ACTION_CODE : action.Code
+    }), headers)
+}
+

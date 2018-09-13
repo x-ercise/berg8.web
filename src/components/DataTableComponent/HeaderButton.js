@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Button } from 'antd';
-import { Modal } from 'antd';
-import { ActionRequest } from '../../constants/action-types';
+import { Button,Modal } from 'antd';
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import {
     SetFlagLoading,
@@ -10,49 +9,53 @@ import {
     OnAfterActionResponseWaitingPage
 } from "../../actions";
 import { mapDataFilterWaitingPage } from '../../helpers/mappingData';
-import { GetDocumentListAPI } from "../../services/apiService";
+import { OperateActionAPI } from "../../services/apiService";
 
 const confirm = Modal.confirm;
 
 class ConnectHeaderButtonWaitingForm extends Component {
     constructor() {
         super();
-
-        this.onClickApprove = this.onClickApprove.bind(this);
-        this.onClickReject = this.onClickReject.bind(this);
-        this.onClickSendBack = this.onClickSendBack.bind(this);
         this.onRequest = this.onRequest.bind(this);
     }
 
     onRequest = (action) => {
         let filter = { ...this.props.filter, Action: action };
         this.props.OnClickAction(filter);
-        let data = mapDataFilterWaitingPage(filter);
-        data.SELECTION = [...this.props.selectedItem];
+        let data ={
+            Selection :[...this.props.selectedItem],
+            Code : action
+        }
+
+        switch (action) {
+            case "AMEND":
+                if (data.SELECTION.length != 1) {
+                    Modal.warning({
+                        title: 'Warning',
+                        content: 'You selected more than 1 item.'
+                    });
+                    return;
+                }
+                break;
+
+            default:
+                break;
+        }
 
         this.props.SetFlagLoading(true);
-        GetDocumentListAPI(data).then(resolve => {
+        OperateActionAPI(data).then(resolve => {
 
             this.props.SetFlagLoading(false);
             if (resolve.status === 200) {
                 let pack = {
-                    clearSelected: true,
-                    data: resolve.data.data
+                    clearSelected: true, 
                 }
 
-                if (resolve.data.message[0].code === 'Success') {
-                    Modal.success({
-                        title: 'Success',
-                        content: resolve.data.message[0].message
-                    });
-                } else {
-                    pack.clearSelected = false;
-                    let text = resolve.data.message.map(e => (e.message)).join('<br/>')
-                    Modal.error({
-                        title: 'Error',
-                        content: text
-                    });
-                }
+                let text = resolve.data.message.map(e => (e.message)).join('<br/>')
+                Modal.info({
+                    title: 'Info',
+                    content: text
+                });
 
                 this.props.OnActionRes(pack);
             }
@@ -61,39 +64,14 @@ class ConnectHeaderButtonWaitingForm extends Component {
             .catch(error => { this.props.SetFlagLoading(false); });
     }
 
-    onClickApprove = () => {
-        this.onRequest(ActionRequest.Approve);
-    }
-
-    onClickReject = () => {
-        let callFuntion = this.onRequest;
-        confirm({
-            title: 'Are you sure to reject?',
-            //  content: 'Some descriptions',
-            okText: 'Yes',
-            okType: 'danger',
-            cancelText: 'No',
-            onOk() {
-                callFuntion(ActionRequest.Reject);
-            },
-            onCancel() {
-
-            },
-        });
-    }
-
-    onClickSendBack = () => {
-        this.onRequest(ActionRequest.SendBack);
-    }
-
     render() {
         return (<div className="row">
 
             <div className="col col-sm-12 col-md-6 col-lg-6" style={{ paddingBottom: '5px' }}>
                 {/* <Button type="primary" >ADD</Button> */}
 
-                {this.props.butonCommand.map((el, i) => (
-                    <Button type="primary" key={i} className={el.VISIBLED ?'' : 'hide'  } onClick={() => this.onRequest(el.CODE)} disabled={!el.ENABLED || this.props.selectedItem.length <= 0} >{el.TEXT}</Button>
+                {this.props.buttonCommand.map((el, i) => (
+                    <Button type="primary" key={i} className={el.VISIBLED ? '' : 'hide'} onClick={() => this.onRequest(el.CODE)} disabled={!el.ENABLED || this.props.selectedItem.length <= 0} >{el.TEXT}</Button>
                 ))}
 
 
@@ -112,11 +90,19 @@ class ConnectHeaderButtonWaitingForm extends Component {
     }
 }
 
+ConnectHeaderButtonWaitingForm.propTypes = {
+    filter: PropTypes.object.isRequired,
+    selectedItem : PropTypes.array.isRequired,
+    buttonCommand : PropTypes.array.isRequired
+}
+
+
+
 const mapStateToProps = state => {
     return {
         filter: state.waitingListPage.filter,
         selectedItem: state.waitingListPage.selected,
-        butonCommand: state.waitingListPage.actions
+        buttonCommand: state.waitingListPage.actions
     }
 }
 
