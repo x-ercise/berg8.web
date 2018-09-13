@@ -11,7 +11,7 @@ const steps = [
         content: <Intinerary />,
     },
 ];
-class Request extends Component {
+class Request extends React.Component {
     next() {
         const current = this.props.stepCurrent + 1;
         this.props.changeStep(current);
